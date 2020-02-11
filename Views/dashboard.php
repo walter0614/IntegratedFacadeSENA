@@ -1,17 +1,10 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Server Etraining One</title>
-
-    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
-    <link rel="stylesheet" href="../CSS/main.css">
-</head>
+<?php
+include("../Includes/Header.php");
+include("../Includes/Session.php");
+?>
 
 <body>
     <div class="container">
@@ -27,7 +20,7 @@ session_start();
                     <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Cursos</a>
                     <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Modulos</a>
                     <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Actividades</a>
-                    <a class="nav-link" href="../index.php" role="tab" aria-controls="v-pills-settings" aria-selected="false">Salir</a>
+                    <a class="nav-link" href="index.php" role="tab" aria-controls="v-pills-settings" aria-selected="false">Salir</a>
                 </div>
             </div>
             <div class="col-9">
@@ -48,9 +41,11 @@ session_start();
             </div>
         </div>
     </div>
-    <script src="../JS/jquery-3.4.1.slim.min.js"></script>
-    <script src="../JS/popper.min.js"></script>
-    <script src="../JS/bootstrap.min.js"></script>
 </body>
+
+
+<?php
+include("../Includes/Footer.php");
+?>
 
 </html>

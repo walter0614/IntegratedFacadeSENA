@@ -15,15 +15,11 @@ if ($_POST["user"] && $_POST["pass"]) {
         for ($i = 0; $i < count($data); $i++) {
             $_SESSION["USER_NAME"] = $data[$i][LoginDAO::$NAME_COLUMN];
         }
-        header('Location: ../Views/login.php');
+        header('Location: ../Views/dashboard.php');
     } else {
         $url = strtok($_SERVER['HTTP_REFERER'], '?');
         header('Location: ' . $url . '?state=' . base64_encode('error'));
     }
 }
-
-
-
-
 
 $connection->Close();

@@ -48,11 +48,6 @@ class Connection
         return $data;
     }
 
-    function ReturnStmt($sql)
-    {
-        $stmt = $this->conn->prepare($sql);
-    }
-
     function Close()
     {
         $this->conn->close();
