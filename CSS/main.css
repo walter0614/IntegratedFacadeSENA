@@ -1,0 +1,18 @@
+.div-login {
+  padding: 5%;
+  padding-top: 10rem;
+}
+
+@media all and (orientation: portrait) {
+  .div-login {
+    padding: 5%;
+    padding-top: 10rem;
+  }
+}
+
+@media all and (orientation: landscape) {
+  .div-login {
+    padding: 5%;
+    padding-top: 4rem;
+  }
+}
