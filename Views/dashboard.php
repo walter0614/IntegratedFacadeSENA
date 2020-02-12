@@ -5,15 +5,15 @@
 include("../Includes/Header.php");
 include("../Includes/Session.php");
 
+include_once("../DAO/SyncDAO.php");
 include_once("../DAO/CategoryDAO.php");
-include_once("../Controller/CategoryController.php");
 include_once("../Connection/Connection.php");
+include_once("../Controller/CategoryController.php");
 $connection = new Connection();
 $categoryController = new CategoryController();
 
 $connection->OpenConnection();
 $categories = $categoryController->GetCategories($connection, array("WS" => true));
-$categoriesDB = $categoryController->GetCategories($connection, array("WS" => false));
 ?>
 
 <body>
@@ -45,12 +45,14 @@ $categoriesDB = $categoryController->GetCategories($connection, array("WS" => fa
                         <tbody>
                             <?php
                             for ($i = 0; $i < count($categories); $i++) {
-                                echo '<tr>'
+                                $class = $categories[$i][SyncDAO::$STATE_COLUMN];
+                                $class = $class == SyncDAO::$STATE_OK_COLUMN ? 'success' : $class == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : 'danger';
+                                echo '<tr class="alert alert-' . $class . '">'
                                     . '<th scope="row">' . $categories[$i][CategoryDAO::$ID_COLUMN] . '</th>'
                                     . '<td>' . $categories[$i][CategoryDAO::$NAME_COLUMN] . '</td>'
                                     . '<td>' . $categories[$i][CategoryDAO::$DESCRIPTION_COLUMN] . '</td>'
                                     . '<td>' . $categories[$i][CategoryDAO::$TIME_MODIFIED_COLUMN] . '</td>'
-                                    . '<td>X</td>'
+                                    . '<td>' . $categories[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '<td><button class="btn btn-primary">Cursos</button></td>'
                                     . '</tr>';
                             }
@@ -58,6 +60,9 @@ $categoriesDB = $categoryController->GetCategories($connection, array("WS" => fa
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div class="col-12 text-right">
+                <button type="button" class="btn btn-success">Sincronizar</button>
             </div>
         </div>
     </div>
