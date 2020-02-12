@@ -4,7 +4,7 @@ class Connection
     public static $servername = "localhost";
     public static $username = "root";
     public static $password = "";
-    public static $dbname = "test";
+    public static $dbname = "integrated_facade_db";
     public $conn;
 
     function OpenConnection()
