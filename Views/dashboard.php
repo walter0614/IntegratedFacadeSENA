@@ -4,39 +4,54 @@
 <?php
 include("../Includes/Header.php");
 include("../Includes/Session.php");
+
+include_once("../DAO/CategoryDAO.php");
+include_once("../Controller/CategoryController.php");
+include_once("../Connection/Connection.php");
+$connection = new Connection();
+$categoryController = new CategoryController();
+
+$connection->OpenConnection();
+$categories = $categoryController->GetCategories($connection, array("WS" => true);
+$categoriesDB = $categoryController->GetCategories($connection, array("WS" => false));
 ?>
 
 <body>
+    <?php
+    include("../Includes/Navbar.php");
+    ?>
     <div class="container">
         <div class="row" style="padding-top:5%">
+            <div class="col-12" style="text-align: center;">
+                <h4>Categorias</h4>
+            </div>
             <div class="col-12">
-                <div class="alert alert-success" role="alert">
-                    <h3><?php echo "Bienvenido " . $_SESSION["USER_NAME"]; ?></h3>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Categorias</a>
-                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Cursos</a>
-                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Modulos</a>
-                    <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Actividades</a>
-                    <a class="nav-link" href="index.php" role="tab" aria-controls="v-pills-settings" aria-selected="false">Salir</a>
-                </div>
-            </div>
-            <div class="col-9">
-                <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                        <h3>Categorias</h3>
-                    </div>
-                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                        <h3>Cursos</h3>
-                    </div>
-                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                        <h3>Modulos</h3>
-                    </div>
-                    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                        <h3>Actividades</h3>
-                    </div>
+                <div class="card shadow p-3 mb-5 bg-white rounded">
+                    <table class="table table-borderless" id="tableCategories">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Última Modificación</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Cursos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            for ($i = 0; $i < count($categories); $i++) {
+                                echo '<tr>'
+                                    . '<th scope="row">' . $categories[$i][CategoryDAO::$ID_COLUMN] . '</th>'
+                                    . '<td>' . $categories[$i][CategoryDAO::$NAME_COLUMN] . '</td>'
+                                    . '<td>' . $categories[$i][CategoryDAO::$DESCRIPTION_COLUMN] . '</td>'
+                                    . '<td>' . $categories[$i][CategoryDAO::$TIME_MODIFIED_COLUMN] . '</td>'
+                                    . '<td><button class="btn btn-primary">Cursos</button></td>'
+                                    . '</tr>';
+                            }
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -45,6 +60,7 @@ include("../Includes/Session.php");
 
 
 <?php
+$connection->Close();
 include("../Includes/Footer.php");
 ?>
 

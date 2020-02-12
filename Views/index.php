@@ -17,7 +17,7 @@ session_destroy();
                     echo '<div class="alert alert-danger" role="alert">Credenciales Incorrectas</div>';
                 }
                 ?>
-                <div class="card">
+                <div class="card shadow p-3 mb-5 bg-white rounded">
                     <div class="card-body">
                         <h3 class="card-title">Iniciar Sesión</h3>
                         <form action="../POST/LoginPOST.php" method="POST">

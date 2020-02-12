@@ -18,3 +18,16 @@ function toString($columns)
     $ret .= $columns[$size];
     return $ret;
 }
+
+/**
+ * 
+ * @param type $rs stdClass object to array
+ * @return array 
+ */
+function toStdToArray($rs)
+{
+    foreach ($rs as $key => $value) {
+        $rs[$key] = (array) $value;
+    }
+    return $rs;
+}
