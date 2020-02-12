@@ -25,7 +25,7 @@ class Connection
         $stmt = $this->conn->prepare($sql);
         switch (count($parameters)) {
             case 1:
-                $stmt->bind_param("is", $parameters[0]);
+                $stmt->bind_param("i", $parameters[0]);
                 break;
             case 2:
                 $stmt->bind_param("is", $parameters[0], $parameters[1]);

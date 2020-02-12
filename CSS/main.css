@@ -7,6 +7,10 @@
   display: inline-table;
 }
 
+.btn-sm {
+  margin: 1px;
+}
+
 @media only screen and (max-width: 786px) {
   .table-responsive {
     display: block;

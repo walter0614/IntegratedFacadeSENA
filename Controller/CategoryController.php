@@ -13,7 +13,7 @@ class CategoryController
         if ($parameter["WS"]) {
             $data = [];
             $localCategories = $this->GetCategories($conn, array("WS" => false));
-            $rs = toStdToArray(json_decode(file_get_contents("http://192.168.100.175/moodlesena/webservice/rest/server.php?wstoken=be36ba0fa968207d3e75bb00d186b636&wsfunction=core_course_get_categories&moodlewsrestformat=json")));
+            $rs = toStdToArray(json_decode(file_get_contents("http://192.168.100.175/moodlesena/webservice/rest/server.php?wstoken=be36ba0fa968207d3e75bb00d186b636&wsfunction=core_course_get_categories&moodlewsrestformat=json"), true));
             for ($i = 0; $i < count($rs); $i++) {
                 $localCategory = $this->GetStateLocalCategory($localCategories, $rs[$i]);
                 array_push(
