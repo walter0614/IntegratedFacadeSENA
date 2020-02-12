@@ -92,3 +92,26 @@ CREATE TABLE category
   timemodified text DEFAULT NULL
 )
 ENGINE=InnoDB DEFAULT CHARSET=latin1
+
+CREATE TABLE course
+(
+  id_course int(100) NOT NULL,
+  id int(100) NOT NULL,
+  fullname text NOT NULL,
+  categoryid int(100) NOT NULL,
+  startdate text NOT NULL,
+  enddate text NOT NULL,
+  timecreated text NOT NULL,
+  timemodified text NOT NULL
+)
+ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla course
+--
+
+INSERT INTO course
+  (id_course, id, fullname, categoryid, startdate, enddate, timecreated, timemodified)
+VALUES
+  (1, 2, 'Prueba 1', 2, '1581462000', '1612998000', '1581461766', '1581461766');
+COMMIT;
