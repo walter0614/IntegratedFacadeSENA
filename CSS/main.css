@@ -3,6 +3,16 @@
   padding-top: 10rem;
 }
 
+.table-responsive {
+  display: inline-table;
+}
+
+@media only screen and (max-width: 786px) {
+  .table-responsive {
+    display: block;
+  }
+}
+
 @media all and (orientation: portrait) {
   .div-login {
     padding: 5%;

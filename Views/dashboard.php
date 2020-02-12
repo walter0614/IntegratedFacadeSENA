@@ -12,7 +12,7 @@ $connection = new Connection();
 $categoryController = new CategoryController();
 
 $connection->OpenConnection();
-$categories = $categoryController->GetCategories($connection, array("WS" => true);
+$categories = $categoryController->GetCategories($connection, array("WS" => true));
 $categoriesDB = $categoryController->GetCategories($connection, array("WS" => false));
 ?>
 
@@ -22,12 +22,16 @@ $categoriesDB = $categoryController->GetCategories($connection, array("WS" => fa
     ?>
     <div class="container">
         <div class="row" style="padding-top:5%">
-            <div class="col-12" style="text-align: center;">
-                <h4>Categorias</h4>
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">Categorias</li>
+                    </ol>
+                </nav>
             </div>
             <div class="col-12">
                 <div class="card shadow p-3 mb-5 bg-white rounded">
-                    <table class="table table-borderless" id="tableCategories">
+                    <table class="table table-borderless table-responsive" id="tableCategories">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -46,6 +50,7 @@ $categoriesDB = $categoryController->GetCategories($connection, array("WS" => fa
                                     . '<td>' . $categories[$i][CategoryDAO::$NAME_COLUMN] . '</td>'
                                     . '<td>' . $categories[$i][CategoryDAO::$DESCRIPTION_COLUMN] . '</td>'
                                     . '<td>' . $categories[$i][CategoryDAO::$TIME_MODIFIED_COLUMN] . '</td>'
+                                    . '<td>X</td>'
                                     . '<td><button class="btn btn-primary">Cursos</button></td>'
                                     . '</tr>';
                             }
