@@ -53,7 +53,7 @@ $categories = $categoryController->GetCategories($connection, array("WS" => true
                                     . '<td>' . $categories[$i][CategoryDAO::$DESCRIPTION_COLUMN] . '</td>'
                                     . '<td>' . $categories[$i][CategoryDAO::$TIME_MODIFIED_COLUMN] . '</td>'
                                     . '<td>' . $categories[$i][SyncDAO::$STATE_COLUMN] . '</td>'
-                                    . '<td><button class="btn btn-primary">Cursos</button></td>'
+                                    . '<td><a class="btn btn-primary btn-sm" href="course.php?id=' . $categories[$i][CategoryDAO::$ID_COLUMN] . '&name=' . $categories[$i][CategoryDAO::$NAME_COLUMN] . '">Cursos</a></td>'
                                     . '</tr>';
                             }
                             ?>
