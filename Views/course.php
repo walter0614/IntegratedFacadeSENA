@@ -10,11 +10,14 @@ include_once("../DAO/CourseDAO.php");
 include_once("../Connection/Connection.php");
 include_once("../Controller/CourseController.php");
 
+$categoryId = isset($_GET['id']) ? $_GET['id'] : 0;
+$categoryName = isset($_GET['name']) ? $_GET['name'] : 0;
+
 $connection = new Connection();
 $courseController = new CourseController();
 
 $connection->OpenConnection();
-$courses = $courseController->GetCoursesByCategory($connection, array("WS" => true), $_GET['id']);
+$courses = $courseController->GetCoursesByCategory($connection, array("WS" => true), $categoryId);
 ?>
 
 <body>
@@ -30,6 +33,9 @@ $courses = $courseController->GetCoursesByCategory($connection, array("WS" => tr
                         <li class="breadcrumb-item active" aria-current="page">Cursos</li>
                     </ol>
                 </nav>
+            </div>
+            <div class="col-12 text-center">
+                <h3><?php echo $categoryName ?></h3>
             </div>
             <div class="col-12">
                 <div class="card shadow p-3 mb-5 bg-white rounded">
@@ -56,10 +62,10 @@ $courses = $courseController->GetCoursesByCategory($connection, array("WS" => tr
                                 echo '<tr class="alert alert-' . $class . '">'
                                     . '<th scope="row">' . $courses[$i][CourseDAO::$ID_COLUMN] . '</th>'
                                     . '<td>' . $courses[$i][CourseDAO::$NAME_COLUMN] . '</td>'
-                                    . '<td>' . $courses[$i][CourseDAO::$START_DATE_COLUMN] . '</td>'
-                                    . '<td>' . $courses[$i][CourseDAO::$END_DATE_COLUMN] . '</td>'
-                                    . '<td>' . $courses[$i][CourseDAO::$TIME_CREATED_COLUMN] . '</td>'
-                                    . '<td>' . $courses[$i][CourseDAO::$TIME_MODIFIED_COLUMN] . '</td>'
+                                    . '<td>' . toMilisecondsToDate($courses[$i][CourseDAO::$START_DATE_COLUMN]) . '</td>'
+                                    . '<td>' . toMilisecondsToDate($courses[$i][CourseDAO::$END_DATE_COLUMN]) . '</td>'
+                                    . '<td>' . toMilisecondsToDate($courses[$i][CourseDAO::$TIME_CREATED_COLUMN]) . '</td>'
+                                    . '<td>' . toMilisecondsToDate($courses[$i][CourseDAO::$TIME_MODIFIED_COLUMN]) . '</td>'
                                     . '<td>' . $courses[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '<td>'
                                     . '<button class="btn btn-primary btn-sm">Modulos</button>'

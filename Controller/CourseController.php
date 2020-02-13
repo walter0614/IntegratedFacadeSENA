@@ -1,8 +1,10 @@
 <?php
 include_once("../DAO/CourseDAO.php");
 include_once("../DAO/SyncDAO.php");
+include_once("../DAO/EndPointDAO.php");
 
 $courseDAO = new CourseDAO();
+$endPointDAO = new EndPointDAO();
 
 class CourseController
 {
@@ -10,10 +12,12 @@ class CourseController
     function GetCoursesByCategory($conn, $parameter, $categoryId)
     {
         global $courseDAO;
+        global $endPointDAO;
         if ($parameter["WS"]) {
             $data = [];
+            $ws = $endPointDAO->GetEndPoint("core_course_get_courses_by_field", "field=category&value=" . $categoryId);
             $localCourses = $this->GetCoursesByCategory($conn, array("WS" => false), $categoryId);
-            $rs = toStdToArray(json_decode(file_get_contents("http://192.168.100.175/moodlesena/webservice/rest/server.php?wstoken=be36ba0fa968207d3e75bb00d186b636&wsfunction=core_course_get_courses_by_field&moodlewsrestformat=json&field=category&value=" . $categoryId), true))["courses"];
+            $rs = toStdToArray(json_decode(file_get_contents($ws), true))["courses"];
             for ($i = 0; $i < count($rs); $i++) {
                 $localCourse = $this->GetStateLocalCourses($localCourses, $rs[$i]);
                 array_push(
