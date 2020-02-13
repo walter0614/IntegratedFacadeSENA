@@ -31,3 +31,8 @@ function toStdToArray($rs)
     }
     return $rs;
 }
+
+function toMilisecondsToDate($miliSeconds)
+{
+    return date("Y-m-d H:i:s", $miliSeconds);
+}

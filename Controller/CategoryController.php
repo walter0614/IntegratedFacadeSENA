@@ -1,8 +1,10 @@
 <?php
 include_once("../DAO/CategoryDAO.php");
 include_once("../DAO/SyncDAO.php");
+include_once("../DAO/EndPointDAO.php");
 
 $categoryDAO = new CategoryDAO();
+$endPointDAO = new EndPointDAO();
 
 class CategoryController
 {
@@ -10,10 +12,12 @@ class CategoryController
     function GetCategories($conn, $parameter)
     {
         global $categoryDAO;
+        global $endPointDAO;
         if ($parameter["WS"]) {
             $data = [];
+            $ws = $endPointDAO->GetEndPoint("core_course_get_categories", "");
             $localCategories = $this->GetCategories($conn, array("WS" => false));
-            $rs = toStdToArray(json_decode(file_get_contents("http://192.168.100.175/moodlesena/webservice/rest/server.php?wstoken=be36ba0fa968207d3e75bb00d186b636&wsfunction=core_course_get_categories&moodlewsrestformat=json"), true));
+            $rs = toStdToArray(json_decode(file_get_contents($ws), true));
             for ($i = 0; $i < count($rs); $i++) {
                 $localCategory = $this->GetStateLocalCategory($localCategories, $rs[$i]);
                 array_push(
@@ -24,7 +28,7 @@ class CategoryController
                         CategoryDAO::$DESCRIPTION_COLUMN  => $rs[$i][CategoryDAO::$DESCRIPTION_COLUMN],
                         CategoryDAO::$PARENT_COLUMN  => $rs[$i][CategoryDAO::$PARENT_COLUMN],
                         CategoryDAO::$VISIBLE_COLUMN  => $rs[$i][CategoryDAO::$VISIBLE_COLUMN],
-                        CategoryDAO::$TIME_MODIFIED_COLUMN  => date("Y-m-d", $rs[$i][CategoryDAO::$TIME_MODIFIED_COLUMN]),
+                        CategoryDAO::$TIME_MODIFIED_COLUMN  => $rs[$i][CategoryDAO::$TIME_MODIFIED_COLUMN],
                         SyncDAO::$STATE_COLUMN  => $localCategory[SyncDAO::$STATE_COLUMN],
                     )
                 );
