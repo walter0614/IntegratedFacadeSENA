@@ -91,7 +91,7 @@ CREATE TABLE category
   visible int(100) DEFAULT NULL,
   timemodified text DEFAULT NULL
 )
-ENGINE=InnoDB DEFAULT CHARSET=latin1
+ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE course
 (
@@ -115,3 +115,16 @@ INSERT INTO course
 VALUES
   (1, 2, 'Prueba 1', 2, '1581462000', '1612998000', '1581461766', '1581461766');
 COMMIT;
+
+-- DROP TABLE activity;
+CREATE TABLE activity
+(
+  id_activity int(100) NOT NULL AUTO_INCREMENT,
+  id int(100) NOT NULL,
+  name text NOT NULL,
+  courseid int(100) NOT NULL,
+  moduleid int(100) NOT NULL,
+  CONSTRAINT activity_pk PRIMARY KEY (id_activity)
+)
+ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--INSERT INTO activity (id, name, courseid, moduleid) VALUES (11, 'Nombres de animales', 2, 7);
