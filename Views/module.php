@@ -6,18 +6,18 @@ include("../Includes/Header.php");
 include("../Includes/Session.php");
 
 include_once("../DAO/SyncDAO.php");
-include_once("../DAO/CourseDAO.php");
+include_once("../DAO/ModuleDAO.php");
 include_once("../Connection/Connection.php");
-include_once("../Controller/CourseController.php");
+include_once("../Controller/ModuleController.php");
 
-$categoryId = isset($_GET['id']) ? $_GET['id'] : 0;
-$categoryName = isset($_GET['name']) ? $_GET['name'] : 0;
+$courseId = isset($_GET['id']) ? $_GET['id'] : 0;
+$courseName = isset($_GET['name']) ? $_GET['name'] : 0;
 
 $connection = new Connection();
-$courseController = new CourseController();
+$moduleController = new ModuleController();
 
 $connection->OpenConnection();
-$courses = $courseController->GetCoursesByCategory($connection, array("WS" => true), $categoryId);
+$modules = $moduleController->GetContentByCourse($connection, array("WS" => true), $courseId);
 ?>
 
 <body>
@@ -31,11 +31,13 @@ $courses = $courseController->GetCoursesByCategory($connection, array("WS" => tr
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="dashboard.php">Categorias</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Cursos</li>
+                        <li class="breadcrumb-item active" aria-current="page">Modulos</li>
+
                     </ol>
                 </nav>
             </div>
             <div class="col-12 text-center">
-                <h3><?php echo $categoryName ?></h3>
+                <h3><?php echo $courseName ?></h3>
             </div>
             <div class="col-12">
                 <div class="card shadow p-3 mb-5 bg-white rounded">
@@ -44,31 +46,30 @@ $courses = $courseController->GetCoursesByCategory($connection, array("WS" => tr
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Inicio</th>
-                                <th scope="col">Fin</th>
-                                <th scope="col">Creación</th>
-                                <th scope="col">Última Modificación</th>
+                                <th scope="col">Descripcion</th>
+                                <th scope="col">Seccion</th>
+                                <th scope="col"># Modulo</th>
+                                <th scope="col"># Seccion</th>
                                 <th scope="col">Estado</th>
-                                <th scope="col">Info</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            for ($i = 0; $i < count($courses); $i++) {
-                                $state = $courses[$i][SyncDAO::$STATE_COLUMN];
+                            for ($i = 0; $i < count($modules); $i++) {
+                                $state = $modules[$i][SyncDAO::$STATE_COLUMN];
                                 $class = $state == SyncDAO::$STATE_OK_COLUMN ? 'success' :  '';
                                 $class = $state == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : $class;
                                 $class = $state == SyncDAO::$STATE_ERROR_COLUMN ? 'danger'  : $class;
                                 echo '<tr class="alert alert-' . $class . '">'
-                                    . '<th scope="row">' . $courses[$i][CourseDAO::$ID_COLUMN] . '</th>'
-                                    . '<td>' . $courses[$i][CourseDAO::$NAME_COLUMN] . '</td>'
-                                    . '<td>' . toMilisecondsToDate($courses[$i][CourseDAO::$START_DATE_COLUMN]) . '</td>'
-                                    . '<td>' . toMilisecondsToDate($courses[$i][CourseDAO::$END_DATE_COLUMN]) . '</td>'
-                                    . '<td>' . toMilisecondsToDate($courses[$i][CourseDAO::$TIME_CREATED_COLUMN]) . '</td>'
-                                    . '<td>' . toMilisecondsToDate($courses[$i][CourseDAO::$TIME_MODIFIED_COLUMN]) . '</td>'
-                                    . '<td>' . $courses[$i][SyncDAO::$STATE_COLUMN] . '</td>'
+                                    . '<th scope="row">' . $modules[$i][ModuleDAO::$ID_COLUMN] . '</th>'
+                                    . '<td>' . $modules[$i][ModuleDAO::$NAME_COLUMN] . '</td>'
+                                    . '<td>' . $modules[$i][ModuleDAO::$SUMARY_COLUMN] . '</td>'
+                                    . '<td>' . $modules[$i][ModuleDAO::$SECTION_COLUMN] . '</td>'
+                                    . '<td>' . '</td>'
+                                    . '<td>' . '</td>'
+                                    . '<td>' . $modules[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '<td>'
-                                    . '<td><a class="btn btn-primary btn-sm" href="module.php?id=' . $courses[$i][CourseDAO::$ID_COLUMN] . '&name=' . $courses[$i][CourseDAO::$NAME_COLUMN] . '">Modulos</a></td>'
+                                    . '<button class="btn btn-primary btn-sm">Actividades</button>'
                                     . '</td>'
                                     . '</tr>';
                             }
