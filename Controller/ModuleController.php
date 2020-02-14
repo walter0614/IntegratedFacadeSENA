@@ -19,7 +19,7 @@ class ModuleController
             $localModule = $this->GetContentByCourse($conn, array("WS" => false), $courseId);
             $rs = toStdToArray(json_decode(file_get_contents($ws), true));
             for ($i = 1; $i < count($rs); $i++) {
-                $localModule = $this->GetStateLocalModule($localModule, $rs[$i]);
+                $moduleLocal = $this->GetStateLocalModule($localModule, $rs[$i]);
                 array_push(
                     $data,
                     array(
@@ -27,7 +27,7 @@ class ModuleController
                         ModuleDAO::$NAME_COLUMN  => $rs[$i][ModuleDAO::$NAME_COLUMN],
                         ModuleDAO::$SUMARY_COLUMN  => $rs[$i][ModuleDAO::$SUMARY_COLUMN],
                         ModuleDAO::$SECTION_COLUMN  => $rs[$i][ModuleDAO::$SECTION_COLUMN],
-                        SyncDAO::$STATE_COLUMN  => $localModule[SyncDAO::$STATE_COLUMN]
+                        SyncDAO::$STATE_COLUMN  => $moduleLocal[SyncDAO::$STATE_COLUMN]
                     )
                 );
 
@@ -47,18 +47,14 @@ class ModuleController
             SyncDAO::$STATE_COLUMN => SyncDAO::$STATE_ERROR_COLUMN,
             SyncDAO::$DESCRIPTION_COLUMN = ""
         );
-       /* for ($i = 0; $i < count($localModule); $i++) {
+       for ($i = 0; $i < count($localModule); $i++) {
             $moduleRS[SyncDAO::$STATE_COLUMN] = 
             $module[ModuleDAO::$ID_COLUMN] ==
             $localModule[$i][ModuleDAO::$ID_COLUMN]
             && $module[ModuleDAO::$NAME_COLUMN] == $localModule[$i][ModuleDAO::$NAME_COLUMN] ? SyncDAO::$STATE_OK_COLUMN : $moduleRS[SyncDAO::$STATE_COLUMN];
             $moduleRS[SyncDAO::$STATE_COLUMN] = $module[ModuleDAO::$ID_COLUMN] == $localModule[$i][ModuleDAO::$ID_COLUMN] 
             && $module[ModuleDAO::$NAME_COLUMN] != $localModule[$i][ModuleDAO::$NAME_COLUMN] ? SyncDAO::$STATE_UPDATE_COLUMN : $moduleRS[SyncDAO::$STATE_COLUMN];
-
         }
-        print_r($localModule);
-        print_r($module );
-        //print_r($localModule);*/
         return $moduleRS;
 
     }
