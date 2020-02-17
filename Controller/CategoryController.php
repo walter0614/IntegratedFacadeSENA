@@ -51,4 +51,27 @@ class CategoryController
         }
         return $categoryRS;
     }
+
+    function syncCategory($connection)
+    {
+        $data = SyncDAO::filterForSync([$this->GetCategories($connection, ['WS' => true])]);
+
+        if (!$data) {
+            return [
+                'status' => false,
+                'msg' => 'No hay ninguna categoria pendiente por sincronizar.',
+            ];
+        }
+
+        foreach ($data as $key => $value) {
+            //var_dump($value['state']);
+        }
+
+        return ['status' => true];
+    }
+
+    function syncCategoryInEnsename()
+    {
+        //
+    }
 }
