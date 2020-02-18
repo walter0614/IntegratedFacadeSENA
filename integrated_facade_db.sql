@@ -130,3 +130,18 @@ CREATE TABLE activity
   CONSTRAINT activity_pk PRIMARY KEY (id_activity)
 )
 ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE delivery
+(
+    id_delivery int PRIMARY key AUTO_INCREMENT,
+    id int,
+    itemmodule text,
+    cmid int,
+    grademin int,
+    grademax int,
+    graderaw int,
+    gradedategraded text,
+    feedback text,
+    userid int
+)

@@ -7,13 +7,13 @@ include("../Includes/Header.php");
 include_once("../DAO/SyncDAO.php");
 include_once("../DAO/ActivityDAO.php");
 include_once("../Connection/Connection.php");
-include_once("../Controller/ActivityController.php");
+include_once("../Controller/DeliveryController.php");
 
 $connection = new Connection();
-$activityController = new ActivityController();
+$deliveryController = new DeliveryController();
 
 $connection->OpenConnection();
-$activities = $activityController->GetActivitiesByCourseAndModule($connection, array("WS" => true), $courseId, $moduleId);
+$deliveries = $deliveryController->GetActivityByIdAndStudents($connection, array("WS" => true), $courseId, $activityId);
 ?>
 
 <body>
@@ -28,42 +28,45 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                         <li class="breadcrumb-item"><a href="dashboard.php">Categorias</a></li>
                         <li class="breadcrumb-item"><a href="<?php echo "course.php?idCategory=" . $categoryId . "&nameCategory=" . $categoryName ?>">Cursos</a></li>
                         <li class="breadcrumb-item"><a href="<?php echo "module.php?idCategory=" . $categoryId . "&nameCategory=" . $categoryName . "&idCourse=" . $courseId . "&nameCourse=" . $courseName ?>">Modulos</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Actividades</li>
+                        <li class="breadcrumb-item"><a href="<?php echo "activity.php?idCategory=" . $categoryId . "&nameCategory=" . $categoryName . "&idCourse=" . $courseId . "&nameCourse=" . $courseName . "&idModule=" . $moduleId . "&nameModule=" . $moduleName ?>">Actividades</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Entregas</li>
                     </ol>
                 </nav>
             </div>
             <div class="col-12 text-center">
-                <h3><?php echo $moduleName ?></h3>
+                <h3><?php echo $activityName ?></h3>
             </div>
             <div class="col-12">
                 <div class="card shadow p-3 mb-5 bg-white rounded">
                     <table class="table table-borderless table-responsive" id="tableCategories">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Tipo</th>
+                                <th scope="col">Estudiante</th>
                                 <th scope="col">Estado</th>
-                                <th scope="col">Info</th>
+                                <th scope="col">Nota</th>
+                                <th scope="col">Feedback</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">% Maximo</th>
+                                <th scope="col">% Minimo</th>
+                                <th scope="col">Tipo</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            for ($i = 0; $i < count($activities); $i++) {
-
-                                $state = $activities[$i][SyncDAO::$STATE_COLUMN];
+                            for ($i = 0; $i < count($deliveries); $i++) {
+                                $state = $deliveries[$i][SyncDAO::$STATE_COLUMN];
                                 $class = $state == SyncDAO::$STATE_OK_COLUMN ? 'success' :  '';
                                 $class = $state == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : $class;
                                 $class = $state == SyncDAO::$STATE_ERROR_COLUMN ? 'danger'  : $class;
                                 echo '<tr class="alert alert-' . $class . '">'
-                                    . '<th scope="row">' . $activities[$i][ActivityDAO::$ID_COLUMN] . '</th>'
-                                    . '<td>' . $activities[$i][ActivityDAO::$NAME_COLUMN] . '</td>'
-                                    . '<td>' . $activities[$i][ActivityDAO::$TIPO_ACTIVITY] . '</td>'
-                                    . '<td>' . $activities[$i][SyncDAO::$STATE_COLUMN] . '</td>'
-                                    . '<td>'  . '</td>'
-                                    . '<td>'
-                                    . '<a class="btn btn-primary btn-sm" href="delivery.php?idCourse=' . $courseId . '&nameCourse=' . $courseName . '&idCategory=' . $categoryId . '&nameCategory=' . $categoryName . '&idModule=' . $moduleId . '&nameModule=' . $moduleName . '&idActivity=' . $activities[$i][ActivityDAO::$ID_COLUMN] . '&nameActivity=' . $activities[$i][ActivityDAO::$NAME_COLUMN] . '">Entregas</a>'
-                                    . '</td>'
+                                    . '<th scope="row">' . $deliveries[$i][DeliveryDAO::$USER_NAME_COLUMN] . '</th>'
+                                    . '<td>' . $deliveries[$i][SyncDAO::$STATE_COLUMN] . '</td>'
+                                    . '<td>' . $deliveries[$i][DeliveryDAO::$GRADE_RAW_COLUMN] . '</td>'
+                                    . '<td>' . $deliveries[$i][DeliveryDAO::$FEEDBACK_COLUMN] . '</td>'
+                                    . '<td>' . toMilisecondsToDate($deliveries[$i][DeliveryDAO::$GRADE_DATE_GRADED_COLUMN]) . '</td>'
+                                    . '<td>' . $deliveries[$i][DeliveryDAO::$GRADE_MAX_COLUMN] . '</td>'
+                                    . '<td>' . $deliveries[$i][DeliveryDAO::$GRADE_MIN_COLUMN] . '</td>'
+                                    . '<td>' . $deliveries[$i][DeliveryDAO::$ITEM_MODULE_COLUMN] . '</td>'
                                     . '</tr>';
                             }
                             ?>
