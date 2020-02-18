@@ -40,7 +40,7 @@ class Connection
         $stmt->execute();
         $result = $stmt->get_result();
         $data = [];
-        if ($result->num_rows > 0) {
+        if (isset($result->num_rows) && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 array_push($data, $row);
             }

@@ -64,7 +64,7 @@ $categories = $categoryController->GetCategories($connection, array("WS" => true
                 </div>
             </div>
             <div class="col-12 text-right">
-                <button type="button" class="btn btn-success" onclick="sync(this, 'category')">
+                <button type="button" class="btn btn-success" id="btn-sync" onclick="sync(this, 'category')">
                     Sincronizar
                 </button>
             </div>
