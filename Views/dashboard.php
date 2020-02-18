@@ -45,8 +45,10 @@ $categories = $categoryController->GetCategories($connection, array("WS" => true
                         <tbody>
                             <?php
                             for ($i = 0; $i < count($categories); $i++) {
-                                $class = $categories[$i][SyncDAO::$STATE_COLUMN];
-                                $class = $class == SyncDAO::$STATE_OK_COLUMN ? 'success' : $class == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : 'danger';
+                                $state = $categories[$i][SyncDAO::$STATE_COLUMN];
+                                $class = $state == SyncDAO::$STATE_OK_COLUMN ? 'success' :  '';
+                                $class = $state == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : $class;
+                                $class = $state == SyncDAO::$STATE_ERROR_COLUMN ? 'danger'  : $class;
                                 echo '<tr class="alert alert-' . $class . '">'
                                     . '<th scope="row">' . $categories[$i][CategoryDAO::$ID_COLUMN] . '</th>'
                                     . '<td>' . $categories[$i][CategoryDAO::$NAME_COLUMN] . '</td>'
