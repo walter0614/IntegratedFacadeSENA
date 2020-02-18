@@ -28,8 +28,8 @@ class CategoryDAO
         return $data;
     }
 
-    public static function saveCategory()
+    public static function saveCategory(array $data): void
     {
-        
+        //var_dump($data);
     }
 }

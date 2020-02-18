@@ -74,6 +74,6 @@ class CategoryController
             }
         }
 
-        return ['status' => true, 'errors' => $errors];
+        return ['status' => true, 'msg' => 'Sincronizado exitosamente', 'errors' => $errors];
     }
 }
