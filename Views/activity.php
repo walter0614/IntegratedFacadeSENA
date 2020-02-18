@@ -3,16 +3,11 @@
 
 <?php
 include("../Includes/Header.php");
-include("../Includes/Session.php");
 
 include_once("../DAO/SyncDAO.php");
 include_once("../DAO/ActivityDAO.php");
 include_once("../Connection/Connection.php");
 include_once("../Controller/ActivityController.php");
-
-$moduleId = isset($_GET['id']) ? $_GET['id'] : 0;
-$moduleName = isset($_GET['name']) ? $_GET['name'] : 0;
-$courseId = isset($_GET['courseid']) ? $_GET['courseid'] : 0;
 
 $connection = new Connection();
 $activityController = new ActivityController();
@@ -31,8 +26,8 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="dashboard.php">Categorias</a></li>
-                        <li class="breadcrumb-item"><a href="dashboard.php">Cursos</a></li>
-                        <li class="breadcrumb-item"><a href="dashboard.php">Módulos y Sesiones</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo "course.php?idCategory=" . $categoryId . "&nameCategory=" . $categoryName ?>">Cursos</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo "module.php?idCategory=" . $categoryId . "&nameCategory=" . $categoryName . "&idCourse=" . $courseId . "&nameCourse=" . $courseName ?>">Modulos</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Actividades</li>
                     </ol>
                 </nav>
@@ -55,7 +50,7 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                         <tbody>
                             <?php
                             for ($i = 0; $i < count($activities); $i++) {
-                                
+
                                 $state = $activities[$i][SyncDAO::$STATE_COLUMN];
                                 $class = $state == SyncDAO::$STATE_OK_COLUMN ? 'success' :  '';
                                 $class = $state == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : $class;
@@ -70,7 +65,6 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                                     . '<button class="btn btn-success btn-sm">Entregas</button>'
                                     . '</td>'
                                     . '</tr>';
-                                    
                             }
                             ?>
                         </tbody>

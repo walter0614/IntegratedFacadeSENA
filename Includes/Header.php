@@ -6,3 +6,7 @@
     <link rel="stylesheet" href="../CSS/bootstrap.min.css">
     <link rel="stylesheet" href="../CSS/main.css">
 </head>
+<?php
+include("../Includes/Session.php");
+include("../Includes/Breadcrumb.php");
+?>

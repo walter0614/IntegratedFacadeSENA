@@ -3,15 +3,11 @@
 
 <?php
 include("../Includes/Header.php");
-include("../Includes/Session.php");
 
 include_once("../DAO/SyncDAO.php");
 include_once("../DAO/ModuleDAO.php");
 include_once("../Connection/Connection.php");
 include_once("../Controller/ModuleController.php");
-
-$courseId = isset($_GET['id']) ? $_GET['id'] : 0;
-$courseName = isset($_GET['name']) ? $_GET['name'] : 0;
 
 $connection = new Connection();
 $moduleController = new ModuleController();
@@ -30,9 +26,8 @@ $modules = $moduleController->GetContentByCourse($connection, array("WS" => true
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="dashboard.php">Categorias</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Cursos</li>
+                        <li class="breadcrumb-item"><a href="<?php echo "course.php?idCategory=" . $categoryId . "&nameCategory=" . $categoryName ?>">Cursos</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Modulos</li>
-
                     </ol>
                 </nav>
             </div>
@@ -69,7 +64,7 @@ $modules = $moduleController->GetContentByCourse($connection, array("WS" => true
                                     . '<td>' . $modules[$i][ModuleDAO::$SECTION_ID_COLUMN] . '</td>'
                                     . '<td>' . $modules[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '<td>'
-                                    . '<td><a class="btn btn-primary btn-sm" href="activity.php?id=' . $modules[$i][ModuleDAO::$ID_COLUMN] . '&name=' . $modules[$i][ModuleDAO::$NAME_COLUMN] .  '&courseid=' . $courseId . '">Actividades</a></td>'
+                                    . '<td><a class="btn btn-primary btn-sm" href="activity.php?idCourse=' . $courseId . '&nameCourse=' . $courseName . '&idCategory=' . $categoryId . '&nameCategory=' . $categoryName . '&idModule=' . $modules[$i][ModuleDAO::$ID_COLUMN] . '&nameModule=' . $modules[$i][ModuleDAO::$NAME_COLUMN] . '">Actividades</a></td>'
                                     . '</td>'
                                     . '</tr>';
                             }

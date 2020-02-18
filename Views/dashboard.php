@@ -3,12 +3,12 @@
 
 <?php
 include("../Includes/Header.php");
-include("../Includes/Session.php");
 
 include_once("../DAO/SyncDAO.php");
 include_once("../DAO/CategoryDAO.php");
 include_once("../Connection/Connection.php");
 include_once("../Controller/CategoryController.php");
+
 $connection = new Connection();
 $categoryController = new CategoryController();
 
@@ -53,7 +53,7 @@ $categories = $categoryController->GetCategories($connection, array("WS" => true
                                     . '<td>' . $categories[$i][CategoryDAO::$DESCRIPTION_COLUMN] . '</td>'
                                     . '<td>' . toMilisecondsToDate($categories[$i][CategoryDAO::$TIME_MODIFIED_COLUMN]) . '</td>'
                                     . '<td>' . $categories[$i][SyncDAO::$STATE_COLUMN] . '</td>'
-                                    . '<td><a class="btn btn-primary btn-sm" href="course.php?id=' . $categories[$i][CategoryDAO::$ID_COLUMN] . '&name=' . $categories[$i][CategoryDAO::$NAME_COLUMN] . '">Cursos</a></td>'
+                                    . '<td><a class="btn btn-primary btn-sm" href="course.php?idCategory=' . $categories[$i][CategoryDAO::$ID_COLUMN] . '&nameCategory=' . $categories[$i][CategoryDAO::$NAME_COLUMN] . '">Cursos</a></td>'
                                     . '</tr>';
                             }
                             ?>

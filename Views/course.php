@@ -3,15 +3,11 @@
 
 <?php
 include("../Includes/Header.php");
-include("../Includes/Session.php");
 
 include_once("../DAO/SyncDAO.php");
 include_once("../DAO/CourseDAO.php");
 include_once("../Connection/Connection.php");
 include_once("../Controller/CourseController.php");
-
-$categoryId = isset($_GET['id']) ? $_GET['id'] : 0;
-$categoryName = isset($_GET['name']) ? $_GET['name'] : 0;
 
 $connection = new Connection();
 $courseController = new CourseController();
@@ -68,7 +64,7 @@ $courses = $courseController->GetCoursesByCategory($connection, array("WS" => tr
                                     . '<td>' . toMilisecondsToDate($courses[$i][CourseDAO::$TIME_MODIFIED_COLUMN]) . '</td>'
                                     . '<td>' . $courses[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '<td>'
-                                    . '<td><a class="btn btn-primary btn-sm" href="module.php?id=' . $courses[$i][CourseDAO::$ID_COLUMN] . '&name=' . $courses[$i][CourseDAO::$NAME_COLUMN] . '">Modulos</a></td>'
+                                    . '<td><a class="btn btn-primary btn-sm" href="module.php?idCourse=' . $courses[$i][CourseDAO::$ID_COLUMN] . '&nameCourse=' . $courses[$i][CourseDAO::$NAME_COLUMN] . '&idCategory=' . $categoryId . '&nameCategory=' . $categoryName . '">Modulos</a></td>'
                                     . '</td>'
                                     . '</tr>';
                             }
