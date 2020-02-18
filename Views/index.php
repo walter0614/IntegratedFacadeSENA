@@ -2,6 +2,7 @@
 <html lang="es">
 
 <?php
+$exclude = true;
 include("../Includes/Header.php");
 session_start();
 $state = isset($_GET['state']) &&  $_GET['state'] == base64_encode('error') ? 1 : 0;

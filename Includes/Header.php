@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../CSS/main.css">
 </head>
 <?php
-include("../Includes/Session.php");
+if (!isset($exclude)) {
+    include("../Includes/Session.php");
+}
 include("../Includes/Breadcrumb.php");
 ?>
