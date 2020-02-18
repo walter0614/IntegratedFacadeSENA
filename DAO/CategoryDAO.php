@@ -27,4 +27,9 @@ class CategoryDAO
         $data = $conn->Query($query, array());
         return $data;
     }
+
+    public static function saveCategory()
+    {
+        
+    }
 }

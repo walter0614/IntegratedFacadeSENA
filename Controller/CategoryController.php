@@ -2,6 +2,7 @@
 include_once("../DAO/CategoryDAO.php");
 include_once("../DAO/SyncDAO.php");
 include_once("../DAO/EndPointDAO.php");
+require_once("SyncController.php");
 
 $categoryDAO = new CategoryDAO();
 $endPointDAO = new EndPointDAO();
@@ -54,24 +55,25 @@ class CategoryController
 
     function syncCategory($connection)
     {
-        $data = SyncDAO::filterForSync([$this->GetCategories($connection, ['WS' => true])]);
+        global $categoryDAO;
 
-        if (!$data) {
-            return [
-                'status' => false,
-                'msg' => 'No hay ninguna categoria pendiente por sincronizar.',
-            ];
+        $data = $this->GetCategories($connection, ['WS' => true]);
+        $dataSync = SyncController::syncInEnsename($data, 'category');
+
+        if (!$dataSync['status']) {
+            return $dataSync;
         }
 
-        foreach ($data as $key => $value) {
-            //var_dump($value['state']);
+        $errors = [];
+        foreach ($dataSync['data'] as $key => $value) {
+
+            if ($value['status']) {
+                $categoryDAO->saveCategory($value);
+            } else {
+                $errors[] = $value;
+            }
         }
 
-        return ['status' => true];
-    }
-
-    function syncCategoryInEnsename()
-    {
-        //
+        return ['status' => true, 'errors' => $errors];
     }
 }
