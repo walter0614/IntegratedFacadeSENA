@@ -18,5 +18,4 @@ function sync(element, type) {
             element.innerHTML = 'Sincronizar'
             console.log('Success:', response)
         })
-
 }
