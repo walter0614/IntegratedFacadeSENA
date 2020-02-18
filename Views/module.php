@@ -65,11 +65,11 @@ $modules = $moduleController->GetContentByCourse($connection, array("WS" => true
                                     . '<td>' . $modules[$i][ModuleDAO::$NAME_COLUMN] . '</td>'
                                     . '<td>' . $modules[$i][ModuleDAO::$SUMARY_COLUMN] . '</td>'
                                     . '<td>' . $modules[$i][ModuleDAO::$SECTION_COLUMN] . '</td>'
-                                    . '<td>' . '</td>'
-                                    . '<td>' . '</td>'
+                                    . '<td>' . $modules[$i][ModuleDAO::$MODULE_ID_COLUMN] . '</td>'
+                                    . '<td>' . $modules[$i][ModuleDAO::$SECTION_ID_COLUMN] . '</td>'
                                     . '<td>' . $modules[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '<td>'
-                                    . '<button class="btn btn-primary btn-sm">Actividades</button>'
+                                    . '<td><a class="btn btn-primary btn-sm" href="activity.php?id=' . $modules[$i][ModuleDAO::$ID_COLUMN] . '&name=' . $modules[$i][ModuleDAO::$NAME_COLUMN] .  '&courseid=' . $courseId . '">Actividades</a></td>'
                                     . '</td>'
                                     . '</tr>';
                             }

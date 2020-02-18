@@ -9,6 +9,8 @@ class ActivityDAO
     public static $NAME_COLUMN = "name";
     public static $COURSE_ID_COLUMN = "courseid";
     public static $MODULE_ID_COLUMN = "moduleid";
+    public static $TIPO_ACTIVITY = "modname";
+    public static $TYPES_ACTIVITY = array("hvp","workshop","assign");
 
     public static function GetActivitiesByCourseAndModule($conn, $courseId, $moduleId)
     {

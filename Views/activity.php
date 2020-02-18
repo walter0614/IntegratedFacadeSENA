@@ -10,9 +10,9 @@ include_once("../DAO/ActivityDAO.php");
 include_once("../Connection/Connection.php");
 include_once("../Controller/ActivityController.php");
 
-$courseId = 2;//isset($_GET['courseid']) ? $_GET['courseid'] : 0;
-$moduleId = 2;//isset($_GET['moduleid']) ? $_GET['moduleid'] : 0;
-$moduleName = 'Modulo 1';//isset($_GET['modulename']) ? $_GET['modulename'] : 0;
+$moduleId = isset($_GET['id']) ? $_GET['id'] : 0;
+$moduleName = isset($_GET['name']) ? $_GET['name'] : 0;
+$courseId = isset($_GET['courseid']) ? $_GET['courseid'] : 0;
 
 $connection = new Connection();
 $activityController = new ActivityController();
@@ -47,6 +47,7 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre</th>
+                                <th scope="col">Tipo</th>
                                 <th scope="col">Estado</th>
                                 <th scope="col">Info</th>
                             </tr>
@@ -54,7 +55,7 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                         <tbody>
                             <?php
                             for ($i = 0; $i < count($activities); $i++) {
-                                /*
+                                
                                 $state = $activities[$i][SyncDAO::$STATE_COLUMN];
                                 $class = $state == SyncDAO::$STATE_OK_COLUMN ? 'success' :  '';
                                 $class = $state == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : $class;
@@ -62,12 +63,14 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                                 echo '<tr class="alert alert-' . $class . '">'
                                     . '<th scope="row">' . $activities[$i][ActivityDAO::$ID_COLUMN] . '</th>'
                                     . '<td>' . $activities[$i][ActivityDAO::$NAME_COLUMN] . '</td>'
+                                    . '<td>' . $activities[$i][ActivityDAO::$TIPO_ACTIVITY] . '</td>'
                                     . '<td>' . $activities[$i][SyncDAO::$STATE_COLUMN] . '</td>'
+                                    . '<td>'  . '</td>'
                                     . '<td>'
                                     . '<button class="btn btn-success btn-sm">Entregas</button>'
                                     . '</td>'
                                     . '</tr>';
-                                    */
+                                    
                             }
                             ?>
                         </tbody>

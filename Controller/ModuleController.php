@@ -20,6 +20,10 @@ class ModuleController
             $rs = toStdToArray(json_decode(file_get_contents($ws), true));
             for ($i = 1; $i < count($rs); $i++) {
                 $moduleLocal = $this->GetStateLocalModule($localModule, $rs[$i]);
+                $id_module= explode(",", $rs[$i][ModuleDAO::$NAME_COLUMN]);
+                $id_section=explode(" ",$id_module[1]);
+                $id_module1 = $id_module[0];
+                $id_section1= $id_section[0];
                 array_push(
                     $data,
                     array(
@@ -27,6 +31,8 @@ class ModuleController
                         ModuleDAO::$NAME_COLUMN  => $rs[$i][ModuleDAO::$NAME_COLUMN],
                         ModuleDAO::$SUMARY_COLUMN  => $rs[$i][ModuleDAO::$SUMARY_COLUMN],
                         ModuleDAO::$SECTION_COLUMN  => $rs[$i][ModuleDAO::$SECTION_COLUMN],
+                        ModuleDAO::$MODULE_ID_COLUMN  => $id_module1,
+                        ModuleDAO::$SECTION_ID_COLUMN  => $id_section1,
                         SyncDAO::$STATE_COLUMN  => $moduleLocal[SyncDAO::$STATE_COLUMN]
                     )
                 );

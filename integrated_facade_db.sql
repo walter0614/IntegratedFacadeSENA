@@ -29,13 +29,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `category` (
-  `id_category` int(100) DEFAULT NULL,
+  `id_category` int(100) DEFAULT NULL AUTO_INCREMENT,
   `id` int(100) DEFAULT NULL,
   `name` text DEFAULT NULL,
   `description` text DEFAULT NULL,
   `parent` int(100) DEFAULT NULL,
   `visible` int(100) DEFAULT NULL,
-  `timemodified` text DEFAULT NULL
+  `timemodified` text DEFAULT NULL,
+  PRIMARY KEY (`id_category`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -129,4 +130,3 @@ CREATE TABLE activity
   CONSTRAINT activity_pk PRIMARY KEY (id_activity)
 )
 ENGINE=InnoDB DEFAULT CHARSET=latin1;
---INSERT INTO activity (id, name, courseid, moduleid) VALUES (11, 'Nombres de animales', 2, 7);
