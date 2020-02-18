@@ -68,7 +68,12 @@ class CategoryController
         foreach ($dataSync['data'] as $key => $value) {
 
             if ($value['status']) {
-                $categoryDAO->saveCategory($value);
+
+                if ($value['state'] == 'POR ACTUALIZAR') {
+                    $categoryDAO->updateCategory($connection, $value);
+                } else {
+                    $categoryDAO->saveCategory($connection, $value);
+                }
             } else {
                 $errors[] = $value;
             }

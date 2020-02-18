@@ -50,4 +50,8 @@ function showMsg(status, msg) {
 
     let html = `<div class="d-msg mt-3"><span class="alert alert-${color}">${msg}</span></div>`
     $('#btn-sync').parent().append(html)
+
+    if (status) {
+        setTimeout(function(){ location.reload(); }, 2000)
+    }
 }
