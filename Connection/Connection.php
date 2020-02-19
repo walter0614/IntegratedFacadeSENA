@@ -20,7 +20,7 @@ class Connection
         return $this;
     }
 
-    function Query($sql, $parameters)
+    function Query($sql, $parameters = null)
     {
         $stmt = $this->conn->prepare($sql);
         switch (count($parameters)) {

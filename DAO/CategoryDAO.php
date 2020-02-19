@@ -44,11 +44,23 @@ class CategoryDAO
             . " VALUES (" . $data['id'] . ", '" . $data['name'] . "', '" . $data['description'] . "', "
             . $data['parent'] . ", " . $data['visible'] . ", '" . $data['timemodified'] . "')";
 
-        $conn->Query($query, array());
+        $conn->Query($query);
     }
 
     public static function updateCategory($conn, array $data): void
     {
+        $columns = [
+            CategoryDAO::$NAME_COLUMN,
+            CategoryDAO::$DESCRIPTION_COLUMN,
+            CategoryDAO::$TIME_MODIFIED_COLUMN
+        ];
 
+        $query = "UPDATE " . CategoryDAO::$CATEGORY_TABLE_NAME
+            . " SET " . CategoryDAO::$NAME_COLUMN . " = '" . $data['name'] . "', "
+            . CategoryDAO::$DESCRIPTION_COLUMN . " = '" . $data['description'] . "', "
+            . CategoryDAO::$TIME_MODIFIED_COLUMN . " = '" . $data['timemodified'] . "'"
+            . " WHERE " . CategoryDAO::$ID_COLUMN . " = " . $data['id'];
+
+        $conn->Query($query);
     }
 }
