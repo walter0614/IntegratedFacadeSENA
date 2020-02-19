@@ -23,7 +23,6 @@ function sync(element, type) {
             } else {
                 showMsg(response.status, response.msg)
             }
-            console.log('Success:', response)
         })
 }
 
@@ -32,9 +31,9 @@ function errors(errors) {
         + '<table class="table table-borderless table-responsive">'
         + '<tr><td>Id</td><td>Nombre</td><td>Error</td></tr>'
 
-    errors.forEach(function(value, index) {
+    errors.forEach(function (value, index) {
         html += `<tr class="alert alert-danger">`
-            +`<td>${value.id}</td><td>${value.name}</td><td>${value.error}</td></tr>`
+            + `<td>${value.id}</td><td>${value.name}</td><td>${value.error}</td></tr>`
     })
     html += '</table></div>'
 
@@ -45,13 +44,13 @@ function showMsg(status, msg) {
     let color = 'success'
 
     if (!status) {
-        color = 'warning' 
+        color = 'warning'
     }
 
     let html = `<div class="d-msg mt-3"><span class="alert alert-${color}">${msg}</span></div>`
     $('#btn-sync').parent().append(html)
 
     if (status) {
-        setTimeout(function(){ location.reload(); }, 2000)
+        setTimeout(function () { location.reload(); }, 2000)
     }
 }
