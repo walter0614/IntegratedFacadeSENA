@@ -49,12 +49,6 @@ class CategoryDAO
 
     public static function updateCategory($conn, array $data): void
     {
-        $columns = [
-            CategoryDAO::$NAME_COLUMN,
-            CategoryDAO::$DESCRIPTION_COLUMN,
-            CategoryDAO::$TIME_MODIFIED_COLUMN
-        ];
-
         $query = "UPDATE " . CategoryDAO::$CATEGORY_TABLE_NAME
             . " SET " . CategoryDAO::$NAME_COLUMN . " = '" . $data['name'] . "', "
             . CategoryDAO::$DESCRIPTION_COLUMN . " = '" . $data['description'] . "', "

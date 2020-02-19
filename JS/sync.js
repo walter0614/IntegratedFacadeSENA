@@ -1,10 +1,14 @@
-function sync(element, type, route) {
+function sync(element, type, route, addData) {
     element.disabled = true
     element.innerHTML = 'Sincronizando... '
         + '<img src="../Assets/loading.gif" class="w-1" alt="Cargando...">'
     $('.d-msg').remove()
     let url = '../POST/SyncPOST.php'
     let data = { type: type }
+
+    if (addData) {
+        Object.assign(data, addData)
+    }
 
     fetch(url, {
         method: 'POST',

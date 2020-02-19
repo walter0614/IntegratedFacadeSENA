@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `category` (
-  `id_category` int(100) DEFAULT NULL AUTO_INCREMENT,
+  `id_category` int(100) NOT NULL AUTO_INCREMENT,
   `id` int(100) DEFAULT NULL,
   `name` text DEFAULT NULL,
   `description` text DEFAULT NULL,
@@ -53,14 +53,15 @@ INSERT INTO `category` (`id_category`, `id`, `name`, `description`, `parent`, `v
 --
 
 CREATE TABLE `course` (
-  `id_course` int(100) NOT NULL,
+  `id_course` int(100) NOT NULL AUTO_INCREMENT,
   `id` int(100) NOT NULL,
   `fullname` text NOT NULL,
   `categoryid` int(100) NOT NULL,
   `startdate` text NOT NULL,
   `enddate` text NOT NULL,
   `timecreated` text NOT NULL,
-  `timemodified` text NOT NULL
+  `timemodified` text NOT NULL,
+  PRIMARY KEY (`id_course`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -77,14 +78,15 @@ INSERT INTO `course` (`id_course`, `id`, `fullname`, `categoryid`, `startdate`, 
 --
 
 CREATE TABLE `module` (
-  `id_module_table` int(11) NOT NULL,
+  `id_module_table` int(11) NOT NULL AUTO_INCREMENT,
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `summary` text NOT NULL,
   `section` int(11) NOT NULL,
   `id_module` int(11) NOT NULL,
   `id_section` int(11) NOT NULL,
-  `id_course` int(11) NOT NULL
+  `id_course` int(11) NOT NULL,
+  PRIMARY KEY (`id_module_table`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
