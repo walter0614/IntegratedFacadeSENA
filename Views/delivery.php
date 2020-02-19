@@ -46,6 +46,7 @@ $deliveries = $deliveryController->GetActivityByIdAndStudents($connection, array
                                 <th scope="col">Nota</th>
                                 <th scope="col">Feedback</th>
                                 <th scope="col">Fecha</th>
+                                <th scope="col">Archivos</th>
                                 <th scope="col">% Maximo</th>
                                 <th scope="col">% Minimo</th>
                                 <th scope="col">Tipo</th>
@@ -64,6 +65,15 @@ $deliveries = $deliveryController->GetActivityByIdAndStudents($connection, array
                                     . '<td>' . $deliveries[$i][DeliveryDAO::$GRADE_RAW_COLUMN] . '</td>'
                                     . '<td>' . $deliveries[$i][DeliveryDAO::$FEEDBACK_COLUMN] . '</td>'
                                     . '<td>' . toMilisecondsToDate($deliveries[$i][DeliveryDAO::$GRADE_DATE_GRADED_COLUMN]) . '</td>'
+                                    . '<td>';
+                                if (count($deliveries[$i]["files"]) > 0) {
+                                    for ($j = 0; $j < count($deliveries[$i]["files"]); $j++) {
+                                        echo '<a href="' . $deliveries[$i]["files"][$j]["fileurl"] . '" target="_blank">'
+                                            . $deliveries[$i]["files"][$j]["filename"]
+                                            . '</a><br>';
+                                    }
+                                }
+                                echo '</td>'
                                     . '<td>' . $deliveries[$i][DeliveryDAO::$GRADE_MAX_COLUMN] . '</td>'
                                     . '<td>' . $deliveries[$i][DeliveryDAO::$GRADE_MIN_COLUMN] . '</td>'
                                     . '<td>' . $deliveries[$i][DeliveryDAO::$ITEM_MODULE_COLUMN] . '</td>'
