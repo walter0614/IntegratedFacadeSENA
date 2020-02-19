@@ -27,6 +27,10 @@ function sync(element, type, route, addData) {
 
             if (Array.isArray(response.errors) && response.errors.length) {
                 errors(response.errors)
+
+                if (!route) {
+                    return false
+                }
             } else {
                 showMsg(response.status, response.msg)
             }
