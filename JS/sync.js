@@ -1,4 +1,4 @@
-function sync(element, type) {
+function sync(element, type, route) {
     element.disabled = true
     element.innerHTML = 'Sincronizando... '
         + '<img src="../Assets/loading.gif" class="w-1" alt="Cargando...">'
@@ -15,13 +15,24 @@ function sync(element, type) {
     }).then(res => res.json())
         .catch(error => console.error('Error:', error))
         .then(function (response) {
-            element.disabled = false
-            element.innerHTML = 'Sincronizar'
+
+            if (!route) {
+                element.disabled = false
+                element.innerHTML = 'Sincronizar'
+            }
 
             if (Array.isArray(response.errors) && response.errors.length) {
                 errors(response.errors)
             } else {
                 showMsg(response.status, response.msg)
+            }
+
+            if (response.status && !route) {
+                setTimeout(function () { location.reload(); }, 2000)
+            } else if (route) {
+                setTimeout(function () {
+                    window.location.href = route
+                }, 2000)
             }
         })
 }
@@ -49,8 +60,4 @@ function showMsg(status, msg) {
 
     let html = `<div class="d-msg mt-3"><span class="alert alert-${color}">${msg}</span></div>`
     $('#btn-sync').parent().append(html)
-
-    if (status) {
-        setTimeout(function () { location.reload(); }, 2000)
-    }
 }
