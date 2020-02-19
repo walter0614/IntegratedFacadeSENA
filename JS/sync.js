@@ -1,10 +1,14 @@
-function sync(element, type) {
+function sync(element, type, route, addData) {
     element.disabled = true
     element.innerHTML = 'Sincronizando... '
         + '<img src="../Assets/loading.gif" class="w-1" alt="Cargando...">'
     $('.d-msg').remove()
     let url = '../POST/SyncPOST.php'
     let data = { type: type }
+
+    if (addData) {
+        Object.assign(data, addData)
+    }
 
     fetch(url, {
         method: 'POST',
@@ -15,15 +19,29 @@ function sync(element, type) {
     }).then(res => res.json())
         .catch(error => console.error('Error:', error))
         .then(function (response) {
-            element.disabled = false
-            element.innerHTML = 'Sincronizar'
+
+            if (!route) {
+                element.disabled = false
+                element.innerHTML = 'Sincronizar'
+            }
 
             if (Array.isArray(response.errors) && response.errors.length) {
                 errors(response.errors)
+
+                if (!route) {
+                    return false
+                }
             } else {
                 showMsg(response.status, response.msg)
             }
-            console.log('Success:', response)
+
+            if (response.status && !route) {
+                setTimeout(function () { location.reload(); }, 2000)
+            } else if (route) {
+                setTimeout(function () {
+                    window.location.href = route
+                }, 2000)
+            }
         })
 }
 
@@ -32,9 +50,9 @@ function errors(errors) {
         + '<table class="table table-borderless table-responsive">'
         + '<tr><td>Id</td><td>Nombre</td><td>Error</td></tr>'
 
-    errors.forEach(function(value, index) {
+    errors.forEach(function (value, index) {
         html += `<tr class="alert alert-danger">`
-            +`<td>${value.id}</td><td>${value.name}</td><td>${value.error}</td></tr>`
+            + `<td>${value.id}</td><td>${value.name}</td><td>${value.error}</td></tr>`
     })
     html += '</table></div>'
 
@@ -45,13 +63,9 @@ function showMsg(status, msg) {
     let color = 'success'
 
     if (!status) {
-        color = 'warning' 
+        color = 'warning'
     }
 
     let html = `<div class="d-msg mt-3"><span class="alert alert-${color}">${msg}</span></div>`
     $('#btn-sync').parent().append(html)
-
-    if (status) {
-        setTimeout(function(){ location.reload(); }, 2000)
-    }
 }

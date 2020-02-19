@@ -55,6 +55,7 @@ $modules = $moduleController->GetContentByCourse($connection, array("WS" => true
                                 $class = $state == SyncDAO::$STATE_OK_COLUMN ? 'success' :  '';
                                 $class = $state == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : $class;
                                 $class = $state == SyncDAO::$STATE_ERROR_COLUMN ? 'danger'  : $class;
+                                $route = 'activity.php?idCourse=' . $courseId . '&nameCourse=' . $courseName . '&idCategory=' . $categoryId . '&nameCategory=' . $categoryName . '&idModule=' . $modules[$i][ModuleDAO::$ID_COLUMN] . '&nameModule=' . $modules[$i][ModuleDAO::$NAME_COLUMN];
                                 echo '<tr class="alert alert-' . $class . '">'
                                     . '<th scope="row">' . $modules[$i][ModuleDAO::$ID_COLUMN] . '</th>'
                                     . '<td>' . $modules[$i][ModuleDAO::$NAME_COLUMN] . '</td>'
@@ -64,7 +65,7 @@ $modules = $moduleController->GetContentByCourse($connection, array("WS" => true
                                     . '<td>' . $modules[$i][ModuleDAO::$SECTION_ID_COLUMN] . '</td>'
                                     . '<td>' . $modules[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '<td>'
-                                    . '<td><a class="btn btn-primary btn-sm" href="activity.php?idCourse=' . $courseId . '&nameCourse=' . $courseName . '&idCategory=' . $categoryId . '&nameCategory=' . $categoryName . '&idModule=' . $modules[$i][ModuleDAO::$ID_COLUMN] . '&nameModule=' . $modules[$i][ModuleDAO::$NAME_COLUMN] . '">Actividades</a></td>'
+                                    . '<td><button class="btn btn-primary btn-sm" onclick="sync(this, `module`, `' . $route . '`, {courseId: ' . $courseId .'})">Actividades</a></td>'
                                     . '</td>'
                                     . '</tr>';
                             }
@@ -74,7 +75,10 @@ $modules = $moduleController->GetContentByCourse($connection, array("WS" => true
                 </div>
             </div>
             <div class="col-12 text-right">
-                <button type="button" class="btn btn-success">Sincronizar</button>
+                <button type="button" class="btn btn-success" id="btn-sync" 
+                    onclick="sync(this, 'module', null, {courseId: <?php echo $courseId ?>})">
+                    Sincronizar
+                </button>
             </div>
         </div>
     </div>

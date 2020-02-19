@@ -1,6 +1,8 @@
 <?php
 require_once("../Connection/Connection.php");
 require_once('../Controller/CategoryController.php');
+require_once('../Controller/CourseController.php');
+require_once('../Controller/ModuleController.php');
 $connection = new Connection();
 $connection->OpenConnection();
 
@@ -10,6 +12,14 @@ switch ($data['type']) {
     case 'category':
         $categoryController = new CategoryController;
         $result = $categoryController->syncCategory($connection);
+        break;
+    case 'course':
+        $courseController = new CourseController;
+        $result = $courseController->syncCourse($connection, $data['categoryId']);
+        break;
+    case 'module':
+        $moduleController = new ModuleController;
+        $result = $moduleController->syncModule($connection, $data['courseId']);
         break;
 }
 

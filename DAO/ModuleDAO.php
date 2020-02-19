@@ -31,4 +31,39 @@ class ModuleDAO
         $data = $conn->Query($query, array($courseId));
         return $data;
     }
+
+    public static function saveModule($conn, array $data): void
+    {
+        $columns = [
+            ModuleDAO::$ID_COLUMN,
+            ModuleDAO::$NAME_COLUMN,
+            ModuleDAO::$SUMARY_COLUMN,
+            ModuleDAO::$SECTION_COLUMN,
+            ModuleDAO::$MODULE_ID_COLUMN,
+            ModuleDAO::$SECTION_ID_COLUMN,
+            ModuleDAO::$COURSE_ID_COLUMN
+        ];
+
+        $query = "INSERT INTO " . ModuleDAO::$MODULE_TABLE_NAME
+            . " (" . toString($columns) . ")"
+            . " VALUES (" . $data['id'] . ", '" . $data['name'] . "', '" . $data['summary'] . "', "
+            . $data['section'] . ", " . $data['id_module'] . ", " . $data['id_section'] .
+            ", " . $data['id_course'] . ")";
+
+        $conn->Query($query);
+    }
+
+    public static function updateModule($conn, array $data): void
+    {
+        $query = "UPDATE " . ModuleDAO::$MODULE_TABLE_NAME
+            . " SET " . ModuleDAO::$NAME_COLUMN . " = '" . $data['name'] . "', "
+            . ModuleDAO::$SUMARY_COLUMN . " = '" . $data['summary'] . "', "
+            . ModuleDAO::$SECTION_COLUMN . " = '" . $data['section'] . "', "
+            . ModuleDAO::$MODULE_ID_COLUMN . " = '" . $data['id_module'] . "', "
+            . ModuleDAO::$SECTION_ID_COLUMN . " = '" . $data['id_section'] . "', "
+            . ModuleDAO::$COURSE_ID_COLUMN . " = '" . $data['id_course'] . "'"
+            . " WHERE " . ModuleDAO::$ID_COLUMN . " = " . $data['id'];
+
+        $conn->Query($query);
+    }
 }

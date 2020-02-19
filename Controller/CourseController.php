@@ -2,6 +2,7 @@
 include_once("../DAO/CourseDAO.php");
 include_once("../DAO/SyncDAO.php");
 include_once("../DAO/EndPointDAO.php");
+require_once("SyncController.php");
 
 $courseDAO = new CourseDAO();
 $endPointDAO = new EndPointDAO();
@@ -51,5 +52,34 @@ class CourseController
             $courseRS[SyncDAO::$STATE_COLUMN] = $course[CourseDAO::$ID_COLUMN] == $localCourses[$i][CourseDAO::$ID_COLUMN] && $course[CourseDAO::$TIME_MODIFIED_COLUMN] != $localCourses[$i][CourseDAO::$TIME_MODIFIED_COLUMN] ? SyncDAO::$STATE_UPDATE_COLUMN : $courseRS[SyncDAO::$STATE_COLUMN];
         }
         return $courseRS;
+    }
+
+    function syncCourse($connection, int $categoryId)
+    {
+        global $courseDAO;
+
+        $data = $this->GetCoursesByCategory($connection, ['WS' => true], $categoryId);
+        $dataSync = SyncController::syncInEnsename($data, 'course');
+
+        if (!$dataSync['status']) {
+            return $dataSync;
+        }
+
+        $errors = [];
+        foreach ($dataSync['data'] as $key => $value) {
+
+            if ($value['status']) {
+
+                if ($value['state'] == 'POR ACTUALIZAR') {
+                    $courseDAO->updateCourse($connection, $value);
+                } else {
+                    $courseDAO->saveCourse($connection, $value);
+                }
+            } else {
+                $errors[] = $value;
+            }
+        }
+
+        return ['status' => true, 'msg' => 'Sincronizado exitosamente', 'errors' => $errors];
     }
 }

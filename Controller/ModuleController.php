@@ -33,6 +33,7 @@ class ModuleController
                         ModuleDAO::$SECTION_COLUMN  => $rs[$i][ModuleDAO::$SECTION_COLUMN],
                         ModuleDAO::$MODULE_ID_COLUMN  => $id_module1,
                         ModuleDAO::$SECTION_ID_COLUMN  => $id_section1,
+                        ModuleDAO::$COURSE_ID_COLUMN => $courseId,
                         SyncDAO::$STATE_COLUMN  => $moduleLocal[SyncDAO::$STATE_COLUMN]
                     )
                 );
@@ -58,5 +59,34 @@ class ModuleController
                 && $module[ModuleDAO::$NAME_COLUMN] != $localModule[$i][ModuleDAO::$NAME_COLUMN] ? SyncDAO::$STATE_UPDATE_COLUMN : $moduleRS[SyncDAO::$STATE_COLUMN];
         }
         return $moduleRS;
+    }
+
+    function syncModule($connection, int $courseId)
+    {
+        global $moduleDAO;
+
+        $data = $this->GetContentByCourse($connection, ['WS' => true], $courseId);
+        $dataSync = SyncController::syncInEnsename($data, 'module');
+
+        if (!$dataSync['status']) {
+            return $dataSync;
+        }
+
+        $errors = [];
+        foreach ($dataSync['data'] as $key => $value) {
+
+            if ($value['status']) {
+
+                if ($value['state'] == 'POR ACTUALIZAR') {
+                    $moduleDAO->updateModule($connection, $value);
+                } else {
+                    $moduleDAO->saveModule($connection, $value);
+                }
+            } else {
+                $errors[] = $value;
+            }
+        }
+
+        return ['status' => true, 'msg' => 'Sincronizado exitosamente', 'errors' => $errors];
     }
 }
