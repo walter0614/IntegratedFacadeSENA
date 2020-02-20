@@ -113,6 +113,7 @@ class DeliveryController
         }
         return $data;
     }
+
     function GetFilesByActivity($allFiles, $idUser)
     {
         $data = [];
@@ -126,5 +127,34 @@ class DeliveryController
             }
         }
         return $data;
+    }
+
+    function syncDelivery($connection, int $courseId, int $activityId)
+    {
+        global $deliveryDAO;
+
+        $data = $this->GetActivityByIdAndStudents($connection, ['WS' => true], $courseId, $activityId);
+        $dataSync = SyncController::syncInEnsename($data, 'delivery');
+
+        if (!$dataSync['status']) {
+            return $dataSync;
+        }
+
+        $errors = [];
+        foreach ($dataSync['data'] as $key => $value) {
+
+            if ($value['status']) {
+
+                if ($value['state'] == 'POR ACTUALIZAR') {
+                    $deliveryDAO->updateDelivery($connection, $value);
+                } else {
+                    $deliveryDAO->saveDelivery($connection, $value);
+                }
+            } else {
+                $errors[] = $value;
+            }
+        }
+
+        return ['status' => true, 'msg' => 'Sincronizado exitosamente', 'errors' => $errors];
     }
 }
