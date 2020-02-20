@@ -29,9 +29,18 @@ class SyncController
 
         $context = stream_context_create($options);
 
+        $wsEnsename = @file_get_contents($ws, false, $context);
+
+        if ($wsEnsename === FALSE) {
+            return [
+                'status' => false,
+                'msg' => 'Falló la conexión con Enseñame, intente más tarde.',
+            ];
+        }
+
         return [
             'status' => true,
-            'data' => toStdToArray(json_decode(file_get_contents($ws, false, $context), true)),
+            'data' => toStdToArray(json_decode($wsEnsename, true)),
         ];
     }
 }
