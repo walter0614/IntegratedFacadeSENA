@@ -55,6 +55,10 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                                 $class = $state == SyncDAO::$STATE_OK_COLUMN ? 'success' :  '';
                                 $class = $state == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : $class;
                                 $class = $state == SyncDAO::$STATE_ERROR_COLUMN ? 'danger'  : $class;
+                                $route = 'delivery.php?idCourse=' . $courseId . '&nameCourse=' . $courseName . '&idCategory=' . $categoryId 
+                                    . '&nameCategory=' . $categoryName . '&idModule=' . $moduleId . '&nameModule=' . $moduleName . '&idActivity=' 
+                                    . $activities[$i][ActivityDAO::$ID_COLUMN] . '&nameActivity=' . $activities[$i][ActivityDAO::$NAME_COLUMN];
+
                                 echo '<tr class="alert alert-' . $class . '">'
                                     . '<th scope="row">' . $activities[$i][ActivityDAO::$ID_COLUMN] . '</th>'
                                     . '<td>' . $activities[$i][ActivityDAO::$NAME_COLUMN] . '</td>'
@@ -62,7 +66,7 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                                     . '<td>' . $activities[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '<td>'  . '</td>'
                                     . '<td>'
-                                    . '<a class="btn btn-primary btn-sm" href="delivery.php?idCourse=' . $courseId . '&nameCourse=' . $courseName . '&idCategory=' . $categoryId . '&nameCategory=' . $categoryName . '&idModule=' . $moduleId . '&nameModule=' . $moduleName . '&idActivity=' . $activities[$i][ActivityDAO::$ID_COLUMN] . '&nameActivity=' . $activities[$i][ActivityDAO::$NAME_COLUMN] . '">Entregas</a>'
+                                    . '<button class="btn btn-primary btn-sm" onclick="sync(this, `activity`, `' . $route . '`, {courseId: ' . $courseId .', moduleId: ' . $moduleId .'})">Entregas</button>'
                                     . '</td>'
                                     . '</tr>';
                             }
@@ -72,7 +76,10 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                 </div>
             </div>
             <div class="col-12 text-right">
-                <button type="button" class="btn btn-success">Sincronizar</button>
+                <button type="button" class="btn btn-success" id="btn-sync" 
+                    onclick="sync(this, 'activity', null, {courseId: <?php echo $courseId ?>, moduleId: <?php echo $moduleId ?>})">
+                    Sincronizar
+                </button>
             </div>
         </div>
     </div>
