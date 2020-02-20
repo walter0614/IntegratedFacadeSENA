@@ -45,6 +45,7 @@ class DeliveryController
         } else {
             $data = $deliveryDAO->GetActivityByIdAndStudents($conn,  $activityId);
         }
+
         return $data;
     }
 
@@ -134,6 +135,7 @@ class DeliveryController
         global $deliveryDAO;
 
         $data = $this->GetActivityByIdAndStudents($connection, ['WS' => true], $courseId, $activityId);
+
         $dataSync = SyncController::syncInEnsename($data, 'delivery');
 
         if (!$dataSync['status']) {
