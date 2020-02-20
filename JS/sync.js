@@ -40,7 +40,7 @@ function sync(element, type, route, addData) {
             } else if (route) {
                 setTimeout(function () {
                     window.location.href = route
-                }, 2000)
+                }, 1000)
             }
         })
 }
