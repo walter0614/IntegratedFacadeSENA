@@ -17,7 +17,7 @@ class SyncController
         }
 
         $ws = EnsenameDAO::getEndPoint($type);
-        $postData = http_build_query([$type => $dataFiltered]);
+        $postData = http_build_query((object) [$type => $dataFiltered]);
 
         $options = [
             'http' => [

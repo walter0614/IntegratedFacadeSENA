@@ -39,4 +39,44 @@ class DeliveryDAO
         $data = $conn->Query($query, array($activityId));
         return $data;
     }
+
+    public static function saveDelivery($conn, array $data): void
+    {
+        $columns = [
+            DeliveryDAO::$ID_COLUMN,
+            DeliveryDAO::$ITEM_MODULE_COLUMN,
+            DeliveryDAO::$CM_ID_COLUMN,
+            DeliveryDAO::$GRADE_MIN_COLUMN,
+            DeliveryDAO::$GRADE_MAX_COLUMN,
+            DeliveryDAO::$GRADE_RAW_COLUMN,
+            DeliveryDAO::$GRADE_DATE_GRADED_COLUMN,
+            DeliveryDAO::$FEEDBACK_COLUMN,
+            DeliveryDAO::$USER_ID_COLUMN
+        ];
+
+        $query = "INSERT INTO " . DeliveryDAO::$DELIVERY_TABLE_NAME
+            . " (" . toString($columns) . ")"
+            . " VALUES (" . $data['id'] . ", '" . $data['itemmodule'] . "', "
+            . "'" . $data['cmid'] . "', '" . $data['grademin'] . "', '" . $data['grademax'] . "', "
+            . "'" . $data['graderaw'] . "', '" . $data['gradedategraded'] . "', " 
+            . "'" . $data['feedback'] . "', '" . $data['userid'] . "')";
+
+        $conn->Query($query);
+    }
+
+    public static function updateDelivery($conn, array $data): void
+    {
+        $query = "UPDATE " . DeliveryDAO::$DELIVERY_TABLE_NAME
+            . " SET " . DeliveryDAO::$ITEM_MODULE_COLUMN . " = '" . $data['itemmodule'] . "', "
+            . DeliveryDAO::$CM_ID_COLUMN . " = '" . $data['cmid'] . "', "
+            . DeliveryDAO::$GRADE_MIN_COLUMN . " = '" . $data['grademin'] . "', "
+            . DeliveryDAO::$GRADE_MAX_COLUMN . " = '" . $data['grademax'] . "', "
+            . DeliveryDAO::$GRADE_RAW_COLUMN . " = '" . $data['graderaw'] . "', "
+            . DeliveryDAO::$GRADE_DATE_GRADED_COLUMN . " = '" . $data['gradedategraded'] . "', "
+            . DeliveryDAO::$FEEDBACK_COLUMN . " = '" . $data['feedback'] . "', "
+            . DeliveryDAO::$USER_ID_COLUMN . " = '" . $data['userid'] . "'"
+            . " WHERE " . DeliveryDAO::$ID_COLUMN . " = " . $data['id'];
+
+        $conn->Query($query);
+    }
 }

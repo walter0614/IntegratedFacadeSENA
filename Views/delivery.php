@@ -85,7 +85,10 @@ $deliveries = $deliveryController->GetActivityByIdAndStudents($connection, array
                 </div>
             </div>
             <div class="col-12 text-right">
-                <button type="button" class="btn btn-success">Sincronizar</button>
+                <button type="button" class="btn btn-success" id="btn-sync" 
+                    onclick="sync(this, 'delivery', null, {courseId: <?php echo $courseId ?>, activityId: <?php echo $activityId ?>})">
+                    Sincronizar
+                </button>
             </div>
         </div>
     </div>

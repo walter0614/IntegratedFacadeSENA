@@ -47,8 +47,8 @@ class ModuleDAO
         $query = "INSERT INTO " . ModuleDAO::$MODULE_TABLE_NAME
             . " (" . toString($columns) . ")"
             . " VALUES (" . $data['id'] . ", '" . $data['name'] . "', '" . $data['summary'] . "', "
-            . $data['section'] . ", " . $data['id_module'] . ", " . $data['id_section'] .
-            ", " . $data['id_course'] . ")";
+            . " '" . $data['section'] . "', '" . $data['id_module'] . "', '" . $data['id_section'] . "'"
+            . ", '" . $data['id_course'] . "')";
 
         $conn->Query($query);
     }
