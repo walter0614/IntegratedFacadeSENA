@@ -45,6 +45,7 @@ $students = $studentController->GetStudentsByCourse($connection, array("WS" => t
                                 <th scope="col">Correo</th>
                                 <th scope="col">Último Acceso</th>
                                 <th scope="col">CustomFields</th>
+                                <th scope="col">Estado</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,6 +62,7 @@ $students = $studentController->GetStudentsByCourse($connection, array("WS" => t
                                     . '<td>' . $students[$i][StudentDAO::$EMAIL_COLUMN] . '</td>'
                                     . '<td>' . toMilisecondsToDate($students[$i][StudentDAO::$LAST_ACCESS_COURSE_COLUMN]) . '</td>'
                                     . '<td>' . $students[$i][StudentDAO::$CUSTOM_FIELDS_COLUMN] . '</td>'
+                                    . '<td>' . $students[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '</tr>';
                             }
                             ?>
