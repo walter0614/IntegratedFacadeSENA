@@ -65,7 +65,7 @@ $modules = $moduleController->GetContentByCourse($connection, array("WS" => true
                                     . '<td>' . $modules[$i][ModuleDAO::$SECTION_ID_COLUMN] . '</td>'
                                     . '<td>' . $modules[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '<td>'
-                                    . '<td><button class="btn btn-primary btn-sm" onclick="sync(this, `module`, `' . $route . '`, {courseId: ' . $courseId .'})">Actividades</a></td>'
+                                    . '<td><button class="btn btn-primary btn-sm" onclick="sync(this, `module`, `' . $route . '`, {courseId: ' . $courseId . '})">Actividades</a></td>'
                                     . '</td>'
                                     . '</tr>';
                             }
@@ -75,8 +75,7 @@ $modules = $moduleController->GetContentByCourse($connection, array("WS" => true
                 </div>
             </div>
             <div class="col-12 text-right">
-                <button type="button" class="btn btn-success" id="btn-sync" 
-                    onclick="sync(this, 'module', null, {courseId: <?php echo $courseId ?>})">
+                <button type="button" class="btn btn-success" id="btn-sync" onclick="sync(this, 'module', null, {courseId: <?php echo $courseId ?>})">
                     Sincronizar
                 </button>
             </div>

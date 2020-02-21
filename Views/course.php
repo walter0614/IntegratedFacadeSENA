@@ -56,6 +56,7 @@ $courses = $courseController->GetCoursesByCategory($connection, array("WS" => tr
                                 $class = $state == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : $class;
                                 $class = $state == SyncDAO::$STATE_ERROR_COLUMN ? 'danger'  : $class;
                                 $route = 'module.php?idCourse=' . $courses[$i][CourseDAO::$ID_COLUMN] . '&nameCourse=' . $courses[$i][CourseDAO::$NAME_COLUMN] . '&idCategory=' . $categoryId . '&nameCategory=' . $categoryName;
+                                $routeStudents = 'student.php?idCourse=' . $courses[$i][CourseDAO::$ID_COLUMN] . '&nameCourse=' . $courses[$i][CourseDAO::$NAME_COLUMN] . '&idCategory=' . $categoryId . '&nameCategory=' . $categoryName;
                                 echo '<tr class="alert alert-' . $class . '">'
                                     . '<th scope="row">' . $courses[$i][CourseDAO::$ID_COLUMN] . '</th>'
                                     . '<td>' . $courses[$i][CourseDAO::$NAME_COLUMN] . '</td>'
@@ -65,7 +66,8 @@ $courses = $courseController->GetCoursesByCategory($connection, array("WS" => tr
                                     . '<td>' . toMilisecondsToDate($courses[$i][CourseDAO::$TIME_MODIFIED_COLUMN]) . '</td>'
                                     . '<td>' . $courses[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '<td>'
-                                    . '<td><button class="btn btn-primary btn-sm" onclick="sync(this, `course`, `' . $route . '`, {categoryId: ' . $categoryId .'})">Modulos</button></td>'
+                                    . '<td><button class="btn btn-primary btn-sm" onclick="sync(this, `course`, `' . $route . '`, {categoryId: ' . $categoryId . '})">Modulos</button><br>'
+                                    . '<a class="btn btn-success btn-sm" href="' . $routeStudents . '">Estudiantes</a></td>'
                                     . '</td>'
                                     . '</tr>';
                             }
@@ -75,8 +77,7 @@ $courses = $courseController->GetCoursesByCategory($connection, array("WS" => tr
                 </div>
             </div>
             <div class="col-12 text-right">
-                <button type="button" class="btn btn-success" id="btn-sync" 
-                    onclick="sync(this, 'course', null, {categoryId: <?php echo $categoryId ?>})">
+                <button type="button" class="btn btn-success" id="btn-sync" onclick="sync(this, 'course', null, {categoryId: <?php echo $categoryId ?>})">
                     Sincronizar
                 </button>
             </div>

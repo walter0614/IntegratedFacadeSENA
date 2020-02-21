@@ -105,3 +105,15 @@ CREATE TABLE category
     feedback text,
     userid int
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+        CREATE TABLE student
+(
+    id_student int PRIMARY key AUTO_INCREMENT,
+    id int,
+    firstname text,
+    lastname text,
+    email longtext,
+    customfields text,
+    id_course int
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
