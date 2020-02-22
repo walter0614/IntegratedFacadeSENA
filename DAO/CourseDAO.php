@@ -3,7 +3,7 @@ include_once('../Utils/Utils.php');
 
 class CourseDAO
 {
-    public static $COURSE_TABLE_NAME = "Course";
+    public static $COURSE_TABLE_NAME = "course";
     public static $ID_COURSE_COLUMN = "id_course";
     public static $ID_COLUMN = "id";
     public static $NAME_COLUMN = "fullname";

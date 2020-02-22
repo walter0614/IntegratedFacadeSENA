@@ -3,7 +3,7 @@ include_once('../Utils/Utils.php');
 
 class ModuleDAO
 {
-    public static $MODULE_TABLE_NAME = "Module";
+    public static $MODULE_TABLE_NAME = "module";
     public static $ID_MODULE_COLUMN = "id_module_table";
     public static $ID_COLUMN = "id";
     public static $NAME_COLUMN = "name";

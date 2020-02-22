@@ -3,7 +3,7 @@ include_once('../Utils/Utils.php');
 
 class ActivityDAO
 {
-    public static $ACTIVITY_TABLE_NAME = "Activity";
+    public static $ACTIVITY_TABLE_NAME = "activity";
     public static $ID_COLUMN = "id";
     public static $ID_ACTIVITY_COLUMN = "id_activity";
     public static $NAME_COLUMN = "name";

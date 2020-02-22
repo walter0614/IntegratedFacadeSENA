@@ -3,7 +3,7 @@ include_once('../Utils/Utils.php');
 
 class LoginDAO
 {
-    public static $LOGIN_TABLE_NAME = "User";
+    public static $LOGIN_TABLE_NAME = "user";
     public static $ID_COLUMN = "Id";
     public static $NAME_COLUMN = "Name";
     public static $PASS_COLUMN = "Pass";

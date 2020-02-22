@@ -3,7 +3,7 @@ include_once('../Utils/Utils.php');
 
 class CategoryDAO
 {
-    public static $CATEGORY_TABLE_NAME = "Category";
+    public static $CATEGORY_TABLE_NAME = "category";
     public static $ID_CATEGORY_COLUMN = "id_category";
     public static $ID_COLUMN = "id";
     public static $NAME_COLUMN = "name";
