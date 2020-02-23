@@ -59,12 +59,18 @@ $deliveries = $deliveryController->GetActivityByIdAndStudents($connection, array
                                 $class = $state == SyncDAO::$STATE_OK_COLUMN ? 'success' :  '';
                                 $class = $state == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : $class;
                                 $class = $state == SyncDAO::$STATE_ERROR_COLUMN ? 'danger'  : $class;
+                                $gradeDate = 'Ninguna';
+
+                                if ($deliveries[$i][DeliveryDAO::$GRADE_DATE_GRADED_COLUMN]) {
+                                    $gradeDate = toMilisecondsToDate($deliveries[$i][DeliveryDAO::$GRADE_DATE_GRADED_COLUMN]);
+                                }
+
                                 echo '<tr class="alert alert-' . $class . '">'
                                     . '<th scope="row">' . $deliveries[$i][DeliveryDAO::$USER_NAME_COLUMN] . '</th>'
                                     . '<td>' . $deliveries[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '<td>' . $deliveries[$i][DeliveryDAO::$GRADE_RAW_COLUMN] . '</td>'
                                     . '<td>' . $deliveries[$i][DeliveryDAO::$FEEDBACK_COLUMN] . '</td>'
-                                    . '<td>' . toMilisecondsToDate($deliveries[$i][DeliveryDAO::$GRADE_DATE_GRADED_COLUMN]) . '</td>'
+                                    . '<td>' . $gradeDate . '</td>'
                                     . '<td>';
                                 if (count($deliveries[$i]["files"]) > 0) {
                                     for ($j = 0; $j < count($deliveries[$i]["files"]); $j++) {
