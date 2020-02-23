@@ -30,10 +30,10 @@ class DeliveryController
                             array(
                                 DeliveryDAO::$USER_NAME_COLUMN  => strlen($rs[$i][DeliveryDAO::$USER_NAME_COLUMN]) > 0 ? $rs[$i][DeliveryDAO::$USER_NAME_COLUMN] : '',
                                 SyncDAO::$STATE_COLUMN  => strlen($activityLocal[SyncDAO::$STATE_COLUMN]) > 0 ? $activityLocal[SyncDAO::$STATE_COLUMN] : '',
-                                DeliveryDAO::$GRADE_RAW_COLUMN => strlen($rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_RAW_COLUMN]) > 0 ? $rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_RAW_COLUMN] : '',
+                                DeliveryDAO::$GRADE_RAW_COLUMN => strlen($rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_RAW_COLUMN]) > 0 ? $rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_RAW_COLUMN] : 0,
                                 DeliveryDAO::$FEEDBACK_COLUMN => strlen($rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$FEEDBACK_COLUMN]) > 0 ? $rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$FEEDBACK_COLUMN] : '',
-                                DeliveryDAO::$GRADE_MAX_COLUMN => strlen($rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_MAX_COLUMN]) > 0 ? $rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_MAX_COLUMN] : '',
-                                DeliveryDAO::$GRADE_MIN_COLUMN => strlen($rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_MIN_COLUMN]) > 0 ? $rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_MIN_COLUMN] : '',
+                                DeliveryDAO::$GRADE_MAX_COLUMN => strlen($rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_MAX_COLUMN]) > 0 ? $rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_MAX_COLUMN] : 0,
+                                DeliveryDAO::$GRADE_MIN_COLUMN => strlen($rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_MIN_COLUMN]) > 0 ? $rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_MIN_COLUMN] : 0,
                                 DeliveryDAO::$ITEM_MODULE_COLUMN => strlen($rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$ITEM_MODULE_COLUMN]) > 0 ? $rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$ITEM_MODULE_COLUMN] : '',
                                 DeliveryDAO::$GRADE_DATE_GRADED_COLUMN => strlen($rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_DATE_GRADED_COLUMN]) > 0 ? $rs[$i][DeliveryDAO::$GRADE_ITEMS_COLUMN][$k][DeliveryDAO::$GRADE_DATE_GRADED_COLUMN] : '',
                                 "files" => $filesActivities,
