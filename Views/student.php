@@ -71,7 +71,8 @@ $students = $studentController->GetStudentsByCourse($connection, array("WS" => t
                 </div>
             </div>
             <div class="col-12 text-right">
-                <button type="button" class="btn btn-success" id="btn-sync" onclick="sync(this, 'course', null, {categoryId: <?php echo $categoryId ?>})">
+                <button type="button" class="btn btn-success" id="btn-sync" 
+                    onclick="sync(this, 'student', null, {courseId: <?php echo $courseId ?>})">
                     Sincronizar
                 </button>
             </div>

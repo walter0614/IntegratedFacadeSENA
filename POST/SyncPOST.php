@@ -5,6 +5,7 @@ require_once('../Controller/CourseController.php');
 require_once('../Controller/ModuleController.php');
 require_once('../Controller/ActivityController.php');
 require_once('../Controller/DeliveryController.php');
+require_once('../Controller/StudentController.php');
 
 $connection = new Connection();
 $connection->OpenConnection();
@@ -31,6 +32,10 @@ switch ($data['type']) {
     case 'delivery':
         $deliveryController = new DeliveryController;
         $result = $deliveryController->syncDelivery($connection, $data['courseId'], $data['activityId']);
+        break;
+    case 'student':
+        $studentController = new StudentController;
+        $result = $studentController->syncStudent($connection, $data['courseId']);
         break;
 }
 
