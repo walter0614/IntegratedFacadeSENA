@@ -16,14 +16,17 @@ class SyncController
             ];
         }
 
+        $mac = exec('cat /sys/class/net/eno1/address');
+
         $ws = EnsenameDAO::getEndPoint($type);
-        $postData = http_build_query((object) [$type => $dataFiltered]);
+        $postData = http_build_query((object) [$type => $dataFiltered, 'mac' => $mac]);
 
         $options = [
             'http' => [
                 'method' => "POST",
                 'header'  => 'Content-Type: application/x-www-form-urlencoded',
                 'content' => $postData,
+                'ignore_errors' => true,
             ]
         ];
 
@@ -38,9 +41,18 @@ class SyncController
             ];
         }
 
+        $response = toStdToArray(json_decode($wsEnsename, true));
+
+        if (isset($response['error']) && $response['error']) {
+            return [
+                'status' => false,
+                'msg' => $response['msg'],
+            ];
+        }
+
         return [
             'status' => true,
-            'data' => toStdToArray(json_decode($wsEnsename, true)),
+            'data' => $response,
         ];
     }
 }
