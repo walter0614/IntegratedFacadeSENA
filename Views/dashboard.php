@@ -3,12 +3,12 @@
 
 <?php
 include("../Includes/Header.php");
-include("../Includes/Session.php");
 
 include_once("../DAO/SyncDAO.php");
 include_once("../DAO/CategoryDAO.php");
 include_once("../Connection/Connection.php");
 include_once("../Controller/CategoryController.php");
+
 $connection = new Connection();
 $categoryController = new CategoryController();
 
@@ -45,15 +45,18 @@ $categories = $categoryController->GetCategories($connection, array("WS" => true
                         <tbody>
                             <?php
                             for ($i = 0; $i < count($categories); $i++) {
-                                $class = $categories[$i][SyncDAO::$STATE_COLUMN];
-                                $class = $class == SyncDAO::$STATE_OK_COLUMN ? 'success' : $class == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : 'danger';
+                                $state = $categories[$i][SyncDAO::$STATE_COLUMN];
+                                $class = $state == SyncDAO::$STATE_OK_COLUMN ? 'success' :  '';
+                                $class = $state == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : $class;
+                                $class = $state == SyncDAO::$STATE_ERROR_COLUMN ? 'danger'  : $class;
+                                $route = 'course.php?idCategory=' . $categories[$i][CategoryDAO::$ID_COLUMN] . '&nameCategory=' . $categories[$i][CategoryDAO::$NAME_COLUMN];
                                 echo '<tr class="alert alert-' . $class . '">'
                                     . '<th scope="row">' . $categories[$i][CategoryDAO::$ID_COLUMN] . '</th>'
                                     . '<td>' . $categories[$i][CategoryDAO::$NAME_COLUMN] . '</td>'
                                     . '<td>' . $categories[$i][CategoryDAO::$DESCRIPTION_COLUMN] . '</td>'
                                     . '<td>' . toMilisecondsToDate($categories[$i][CategoryDAO::$TIME_MODIFIED_COLUMN]) . '</td>'
                                     . '<td>' . $categories[$i][SyncDAO::$STATE_COLUMN] . '</td>'
-                                    . '<td><a class="btn btn-primary btn-sm" href="course.php?id=' . $categories[$i][CategoryDAO::$ID_COLUMN] . '&name=' . $categories[$i][CategoryDAO::$NAME_COLUMN] . '">Cursos</a></td>'
+                                    . '<td><button type="button" class="btn btn-primary btn-sm" onclick="sync(this, `category`, `' . $route . '`)">Cursos</button></td>'
                                     . '</tr>';
                             }
                             ?>
@@ -62,7 +65,7 @@ $categories = $categoryController->GetCategories($connection, array("WS" => true
                 </div>
             </div>
             <div class="col-12 text-right">
-                <button type="button" class="btn btn-success" onclick="sync(this, 'category')">
+                <button type="button" class="btn btn-success" id="btn-sync" onclick="sync(this, 'category')">
                     Sincronizar
                 </button>
             </div>

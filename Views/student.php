@@ -5,15 +5,15 @@
 include("../Includes/Header.php");
 
 include_once("../DAO/SyncDAO.php");
-include_once("../DAO/ModuleDAO.php");
+include_once("../DAO/CourseDAO.php");
 include_once("../Connection/Connection.php");
-include_once("../Controller/ModuleController.php");
+include_once("../Controller/StudentController.php");
 
 $connection = new Connection();
-$moduleController = new ModuleController();
+$studentController = new StudentController();
 
 $connection->OpenConnection();
-$modules = $moduleController->GetContentByCourse($connection, array("WS" => true), $courseId);
+$students = $studentController->GetStudentsByCourse($connection, array("WS" => true), $courseId);
 ?>
 
 <body>
@@ -27,7 +27,7 @@ $modules = $moduleController->GetContentByCourse($connection, array("WS" => true
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="dashboard.php">Categorias</a></li>
                         <li class="breadcrumb-item"><a href="<?php echo "course.php?idCategory=" . $categoryId . "&nameCategory=" . $categoryName ?>">Cursos</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Modulos</li>
+                        <li class="breadcrumb-item active" aria-current="page">Estudiantes</li>
                     </ol>
                 </nav>
             </div>
@@ -40,33 +40,29 @@ $modules = $moduleController->GetContentByCourse($connection, array("WS" => true
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Descripcion</th>
-                                <th scope="col">Seccion</th>
-                                <th scope="col"># Modulo</th>
-                                <th scope="col"># Seccion</th>
+                                <th scope="col">Nombres</th>
+                                <th scope="col">Apellidos</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Último Acceso</th>
+                                <th scope="col">CustomFields</th>
                                 <th scope="col">Estado</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            for ($i = 0; $i < count($modules); $i++) {
-                                $state = $modules[$i][SyncDAO::$STATE_COLUMN];
+                            for ($i = 0; $i < count($students); $i++) {
+                                $state = $students[$i][SyncDAO::$STATE_COLUMN];
                                 $class = $state == SyncDAO::$STATE_OK_COLUMN ? 'success' :  '';
                                 $class = $state == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : $class;
                                 $class = $state == SyncDAO::$STATE_ERROR_COLUMN ? 'danger'  : $class;
-                                $route = 'activity.php?idCourse=' . $courseId . '&nameCourse=' . $courseName . '&idCategory=' . $categoryId . '&nameCategory=' . $categoryName . '&idModule=' . $modules[$i][ModuleDAO::$ID_COLUMN] . '&nameModule=' . $modules[$i][ModuleDAO::$NAME_COLUMN];
                                 echo '<tr class="alert alert-' . $class . '">'
-                                    . '<th scope="row">' . $modules[$i][ModuleDAO::$ID_COLUMN] . '</th>'
-                                    . '<td>' . $modules[$i][ModuleDAO::$NAME_COLUMN] . '</td>'
-                                    . '<td>' . $modules[$i][ModuleDAO::$SUMARY_COLUMN] . '</td>'
-                                    . '<td>' . $modules[$i][ModuleDAO::$SECTION_COLUMN] . '</td>'
-                                    . '<td>' . $modules[$i][ModuleDAO::$MODULE_ID_COLUMN] . '</td>'
-                                    . '<td>' . $modules[$i][ModuleDAO::$SECTION_ID_COLUMN] . '</td>'
-                                    . '<td>' . $modules[$i][SyncDAO::$STATE_COLUMN] . '</td>'
-                                    . '<td>'
-                                    . '<td><button class="btn btn-primary btn-sm" onclick="sync(this, `module`, `' . $route . '`, {courseId: ' . $courseId . '})">Actividades</a></td>'
-                                    . '</td>'
+                                    . '<th scope="row">' . $students[$i][StudentDAO::$ID_COLUMN] . '</th>'
+                                    . '<td>' . $students[$i][StudentDAO::$FIRST_NAME_COLUMN] . '</td>'
+                                    . '<td>' . $students[$i][StudentDAO::$LAST_NAME_COLUMN] . '</td>'
+                                    . '<td>' . $students[$i][StudentDAO::$EMAIL_COLUMN] . '</td>'
+                                    . '<td>' . toMilisecondsToDate($students[$i][StudentDAO::$LAST_ACCESS_COURSE_COLUMN]) . '</td>'
+                                    . '<td>' . $students[$i][StudentDAO::$CUSTOM_FIELDS_COLUMN] . '</td>'
+                                    . '<td>' . $students[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '</tr>';
                             }
                             ?>
@@ -75,7 +71,8 @@ $modules = $moduleController->GetContentByCourse($connection, array("WS" => true
                 </div>
             </div>
             <div class="col-12 text-right">
-                <button type="button" class="btn btn-success" id="btn-sync" onclick="sync(this, 'module', null, {courseId: <?php echo $courseId ?>})">
+                <button type="button" class="btn btn-success" id="btn-sync" 
+                    onclick="sync(this, 'student', null, {courseId: <?php echo $courseId ?>})">
                     Sincronizar
                 </button>
             </div>

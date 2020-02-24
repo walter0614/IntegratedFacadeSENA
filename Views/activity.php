@@ -3,16 +3,11 @@
 
 <?php
 include("../Includes/Header.php");
-include("../Includes/Session.php");
 
 include_once("../DAO/SyncDAO.php");
 include_once("../DAO/ActivityDAO.php");
 include_once("../Connection/Connection.php");
 include_once("../Controller/ActivityController.php");
-
-$moduleId = isset($_GET['id']) ? $_GET['id'] : 0;
-$moduleName = isset($_GET['name']) ? $_GET['name'] : 0;
-$courseId = isset($_GET['courseid']) ? $_GET['courseid'] : 0;
 
 $connection = new Connection();
 $activityController = new ActivityController();
@@ -31,8 +26,8 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="dashboard.php">Categorias</a></li>
-                        <li class="breadcrumb-item"><a href="dashboard.php">Cursos</a></li>
-                        <li class="breadcrumb-item"><a href="dashboard.php">Módulos y Sesiones</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo "course.php?idCategory=" . $categoryId . "&nameCategory=" . $categoryName ?>">Cursos</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo "module.php?idCategory=" . $categoryId . "&nameCategory=" . $categoryName . "&idCourse=" . $courseId . "&nameCourse=" . $courseName ?>">Modulos</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Actividades</li>
                     </ol>
                 </nav>
@@ -55,11 +50,15 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                         <tbody>
                             <?php
                             for ($i = 0; $i < count($activities); $i++) {
-                                
+
                                 $state = $activities[$i][SyncDAO::$STATE_COLUMN];
                                 $class = $state == SyncDAO::$STATE_OK_COLUMN ? 'success' :  '';
                                 $class = $state == SyncDAO::$STATE_UPDATE_COLUMN ? 'warning' : $class;
                                 $class = $state == SyncDAO::$STATE_ERROR_COLUMN ? 'danger'  : $class;
+                                $route = 'delivery.php?idCourse=' . $courseId . '&nameCourse=' . $courseName . '&idCategory=' . $categoryId 
+                                    . '&nameCategory=' . $categoryName . '&idModule=' . $moduleId . '&nameModule=' . $moduleName . '&idActivity=' 
+                                    . $activities[$i][ActivityDAO::$ID_COLUMN] . '&nameActivity=' . $activities[$i][ActivityDAO::$NAME_COLUMN];
+
                                 echo '<tr class="alert alert-' . $class . '">'
                                     . '<th scope="row">' . $activities[$i][ActivityDAO::$ID_COLUMN] . '</th>'
                                     . '<td>' . $activities[$i][ActivityDAO::$NAME_COLUMN] . '</td>'
@@ -67,10 +66,9 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                                     . '<td>' . $activities[$i][SyncDAO::$STATE_COLUMN] . '</td>'
                                     . '<td>'  . '</td>'
                                     . '<td>'
-                                    . '<button class="btn btn-success btn-sm">Entregas</button>'
+                                    . '<button class="btn btn-primary btn-sm" onclick="sync(this, `activity`, `' . $route . '`, {courseId: ' . $courseId .', moduleId: ' . $moduleId .'})">Entregas</button>'
                                     . '</td>'
                                     . '</tr>';
-                                    
                             }
                             ?>
                         </tbody>
@@ -78,7 +76,10 @@ $activities = $activityController->GetActivitiesByCourseAndModule($connection, a
                 </div>
             </div>
             <div class="col-12 text-right">
-                <button type="button" class="btn btn-success">Sincronizar</button>
+                <button type="button" class="btn btn-success" id="btn-sync" 
+                    onclick="sync(this, 'activity', null, {courseId: <?php echo $courseId ?>, moduleId: <?php echo $moduleId ?>})">
+                    Sincronizar
+                </button>
             </div>
         </div>
     </div>

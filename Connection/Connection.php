@@ -3,7 +3,7 @@ class Connection
 {
     public static $servername = "localhost";
     public static $username = "root";
-    public static $password = "";
+    public static $password = "123456789";
     public static $dbname = "integrated_facade_db";
     public $conn;
 
@@ -20,9 +20,15 @@ class Connection
         return $this;
     }
 
-    function Query($sql, $parameters)
+    function Query($sql, $parameters = [])
     {
         $stmt = $this->conn->prepare($sql);
+
+        if ($stmt === false) {
+            mysqli_report(MYSQLI_REPORT_ALL);
+            throw new Exception('Error en prepare: ' . $stmt);
+        }
+
         switch (count($parameters)) {
             case 1:
                 $stmt->bind_param("i", $parameters[0]);
@@ -40,7 +46,7 @@ class Connection
         $stmt->execute();
         $result = $stmt->get_result();
         $data = [];
-        if ($result->num_rows > 0) {
+        if (isset($result->num_rows) && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 array_push($data, $row);
             }

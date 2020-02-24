@@ -20,10 +20,10 @@ class ModuleController
             $rs = toStdToArray(json_decode(file_get_contents($ws), true));
             for ($i = 1; $i < count($rs); $i++) {
                 $moduleLocal = $this->GetStateLocalModule($localModule, $rs[$i]);
-                $id_module= explode(",", $rs[$i][ModuleDAO::$NAME_COLUMN]);
-                $id_section=explode(" ",$id_module[1]);
-                $id_module1 = $id_module[0];
-                $id_section1= $id_section[0];
+                $id_module = explode(",", $rs[$i][ModuleDAO::$NAME_COLUMN]);
+                $id_section = explode(" ", (isset($id_module[1]) ? $id_module[1] : "Error"));
+                $id_module1 = isset($id_module[0]) ? $id_module[0] : "Error";
+                $id_section1 = isset($id_section[0]) ? $id_section[0] : "Error";
                 array_push(
                     $data,
                     array(
@@ -33,36 +33,60 @@ class ModuleController
                         ModuleDAO::$SECTION_COLUMN  => $rs[$i][ModuleDAO::$SECTION_COLUMN],
                         ModuleDAO::$MODULE_ID_COLUMN  => $id_module1,
                         ModuleDAO::$SECTION_ID_COLUMN  => $id_section1,
+                        ModuleDAO::$COURSE_ID_COLUMN => $courseId,
                         SyncDAO::$STATE_COLUMN  => $moduleLocal[SyncDAO::$STATE_COLUMN]
                     )
                 );
-
-            }    
+            }
         } else {
             $data = $moduleDAO->GetContentByCourse($conn, $courseId);
-
         }
         return $data;
-
-    
     }
 
     function GetStateLocalModule($localModule, $module)
-    {       
-            $moduleRS = array(
+    {
+        $moduleRS = array(
             SyncDAO::$STATE_COLUMN => SyncDAO::$STATE_ERROR_COLUMN,
             SyncDAO::$DESCRIPTION_COLUMN = ""
         );
-       for ($i = 0; $i < count($localModule); $i++) {
-            $moduleRS[SyncDAO::$STATE_COLUMN] = 
-            $module[ModuleDAO::$ID_COLUMN] ==
-            $localModule[$i][ModuleDAO::$ID_COLUMN]
-            && $module[ModuleDAO::$NAME_COLUMN] == $localModule[$i][ModuleDAO::$NAME_COLUMN] ? SyncDAO::$STATE_OK_COLUMN : $moduleRS[SyncDAO::$STATE_COLUMN];
-            $moduleRS[SyncDAO::$STATE_COLUMN] = $module[ModuleDAO::$ID_COLUMN] == $localModule[$i][ModuleDAO::$ID_COLUMN] 
-            && $module[ModuleDAO::$NAME_COLUMN] != $localModule[$i][ModuleDAO::$NAME_COLUMN] ? SyncDAO::$STATE_UPDATE_COLUMN : $moduleRS[SyncDAO::$STATE_COLUMN];
+        for ($i = 0; $i < count($localModule); $i++) {
+            $moduleRS[SyncDAO::$STATE_COLUMN] =
+                $module[ModuleDAO::$ID_COLUMN] ==
+                $localModule[$i][ModuleDAO::$ID_COLUMN]
+                && $module[ModuleDAO::$NAME_COLUMN] == $localModule[$i][ModuleDAO::$NAME_COLUMN] ? SyncDAO::$STATE_OK_COLUMN : $moduleRS[SyncDAO::$STATE_COLUMN];
+            $moduleRS[SyncDAO::$STATE_COLUMN] = $module[ModuleDAO::$ID_COLUMN] == $localModule[$i][ModuleDAO::$ID_COLUMN]
+                && $module[ModuleDAO::$NAME_COLUMN] != $localModule[$i][ModuleDAO::$NAME_COLUMN] ? SyncDAO::$STATE_UPDATE_COLUMN : $moduleRS[SyncDAO::$STATE_COLUMN];
         }
         return $moduleRS;
-
     }
 
+    function syncModule($connection, int $courseId)
+    {
+        global $moduleDAO;
+
+        $data = $this->GetContentByCourse($connection, ['WS' => true], $courseId);
+        $dataSync = SyncController::syncInEnsename($data, 'module');
+
+        if (!$dataSync['status']) {
+            return $dataSync;
+        }
+
+        $errors = [];
+        foreach ($dataSync['data'] as $key => $value) {
+
+            if ($value['status']) {
+
+                if ($value['state'] == 'POR ACTUALIZAR') {
+                    $moduleDAO->updateModule($connection, $value);
+                } else {
+                    $moduleDAO->saveModule($connection, $value);
+                }
+            } else {
+                $errors[] = $value;
+            }
+        }
+
+        return ['status' => true, 'msg' => 'Sincronizado exitosamente', 'errors' => $errors];
+    }
 }
