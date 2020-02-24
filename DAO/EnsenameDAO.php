@@ -3,8 +3,8 @@ include_once('../Utils/Utils.php');
 
 class EnsenameDAO
 {
-    //public static $HOST = "http://192.168.100.153:8000/";//"Servidor"
-    public static $HOST = "http://localhost:8000/";//"Local"
+    //public static $HOST = "http://35.232.253.155:8001/";//"Servidor"
+    public static $HOST = "http://localhost:8001/";//"Local"
     public static $INSTANCE_NAME = "api/";
     public static $TOKEN = "";
 
