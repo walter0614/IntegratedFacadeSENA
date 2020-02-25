@@ -4,7 +4,7 @@ include_once('../Utils/Utils.php');
 class EndPointDAO
 {
     public static $HOST = "http://35.232.253.155:8003/";
-    public static $INSTANCE_NAME = "moodlesena/webservice/rest/server.php?";
+    public static $INSTANCE_NAME = "webservice/rest/server.php?";
     public static $TOKEN = "wstoken=be36ba0fa968207d3e75bb00d186b636";
     public static $TOKEN_SPECIAL = "wstoken=d3f7683501e2c68d162a316c891f7e88";
     public static $FUNCTION_NAME = "&wsfunction=";

@@ -3,7 +3,7 @@ class Connection
 {
     public static $servername = "localhost";
     public static $username = "root";
-    public static $password = "123456789";
+    public static $password = "";
     public static $dbname = "integrated_facade_db";
     public $conn;
 
