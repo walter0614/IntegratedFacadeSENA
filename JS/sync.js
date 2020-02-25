@@ -1,4 +1,10 @@
 function sync(element, type, route, addData) {
+    //Omite sincronización al navegar
+    if (route) {
+        window.location.href = route
+        return false
+    }
+
     element.disabled = true
     element.innerHTML = 'Sincronizando... '
         + '<img src="../Assets/loading.gif" class="w-1" alt="Cargando...">'
